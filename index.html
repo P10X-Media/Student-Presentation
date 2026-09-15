@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="only light">
 <meta name="darkreader-lock">
-<meta name="p10x-deck-build" content="2026-09-15-clean-view-v5">
+<meta name="p10x-deck-build" content="2026-09-15-lively-premium-v6">
 <title>P10X Academy — From Classroom to Career</title>
 <script src="deck-stage.js?v=20260915-clean-view-v5"></script>
 <link rel="stylesheet" href="_ds/classical-32b44d5e-4a3d-468a-9bf2-5ae2f115f0ec/styles.css?v=20260915-premium-v3">
@@ -480,6 +480,164 @@
     border: 1px solid rgba(23, 27, 28, 0.15);
     outline: 8px solid rgba(250, 248, 243, 0.68);
     box-shadow: 0 24px 56px rgba(23, 27, 28, 0.14);
+  }
+
+  /* Lively chapter system. Each movement keeps the premium neutral base but
+     gains its own accent, ambient geometry and card rhythm. */
+  deck-stage > section {
+    --chapter: #28aeb7;
+    --chapter-ink: #166d73;
+    --chapter-soft: color-mix(in srgb, var(--chapter) 10%, transparent);
+  }
+  deck-stage > section:nth-child(n+4):nth-child(-n+7) {
+    --chapter: #27aab8;
+    --chapter-ink: #176d77;
+  }
+  deck-stage > section:nth-child(n+8):nth-child(-n+12) {
+    --chapter: #467fc6;
+    --chapter-ink: #315f99;
+  }
+  deck-stage > section:nth-child(n+13):nth-child(-n+19) {
+    --chapter: #2f9f79;
+    --chapter-ink: #216f57;
+  }
+  deck-stage > section:nth-child(n+20):nth-child(-n+24) {
+    --chapter: #cf9437;
+    --chapter-ink: #8f641e;
+  }
+  deck-stage > section:nth-child(n+25):nth-child(-n+33) {
+    --chapter: #dd7054;
+    --chapter-ink: #a34e39;
+  }
+  deck-stage > section:not([style*="background:color-mix"]) {
+    background-image:
+      radial-gradient(circle at 88% 18%, transparent 0 102px, color-mix(in srgb, var(--chapter) 16%, transparent) 103px 105px, transparent 106px 168px, color-mix(in srgb, var(--chapter) 8%, transparent) 169px 171px, transparent 172px),
+      linear-gradient(132deg, transparent 0 72%, color-mix(in srgb, var(--chapter) 5%, transparent) 72.1% 86%, transparent 86.1%),
+      radial-gradient(ellipse at 8% 94%, color-mix(in srgb, var(--chapter) 8%, transparent), transparent 42%),
+      linear-gradient(110deg, rgba(250, 248, 243, 0.86) 0%, rgba(246, 243, 237, 0.72) 56%, rgba(244, 241, 235, 0.58) 100%),
+      url("assets/p10x-light-background.webp") !important;
+    box-shadow:
+      inset 0 4px 0 var(--chapter),
+      inset -46px 0 0 color-mix(in srgb, var(--chapter) 4%, transparent),
+      inset 0 0 0 1px rgba(23, 27, 28, 0.08);
+  }
+  deck-stage > section[style*="background:color-mix"] {
+    background-image:
+      radial-gradient(circle at 82% 48%, color-mix(in srgb, var(--chapter) 14%, transparent), transparent 29%),
+      linear-gradient(118deg, transparent 0 58%, color-mix(in srgb, var(--chapter) 10%, transparent) 58.1% 70%, transparent 70.1%),
+      linear-gradient(108deg, rgba(7, 14, 16, 0.83) 0%, rgba(10, 18, 20, 0.66) 58%, rgba(9, 16, 18, 0.49) 100%),
+      url("assets/p10x-dark-background.webp") !important;
+    box-shadow:
+      inset 0 4px 0 var(--chapter),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  }
+  deck-stage > section:not([style*="background:color-mix"]):not([data-label="Cover"])::before {
+    color: var(--chapter-ink);
+    border-bottom-color: color-mix(in srgb, var(--chapter) 34%, rgba(23, 27, 28, 0.11));
+  }
+  deck-stage > section:not([style*="background:color-mix"]) > h2::after,
+  deck-stage > section[data-label$="Divider"] > .rise::before {
+    background: var(--chapter);
+  }
+  deck-stage > section[data-label$="Divider"] > .rise > div:first-child {
+    color: var(--chapter) !important;
+  }
+  deck-stage > section [style*="color:var(--color-accent-700)"] {
+    color: var(--chapter-ink) !important;
+  }
+  deck-stage > section:not([style*="background:color-mix"])::after,
+  deck-stage > section[style*="background:color-mix"]::after,
+  deck-stage > section[data-label="Cover"]::after {
+    padding-left: 86px;
+    background: linear-gradient(90deg, var(--chapter) 0 64px, transparent 64px);
+  }
+  deck-stage > section [style*="border:1px solid var(--color-neutral"] {
+    background:
+      linear-gradient(138deg, rgba(250, 248, 243, 0.88) 0 72%, color-mix(in srgb, var(--chapter) 9%, transparent) 100%);
+    border-color: color-mix(in srgb, var(--chapter) 25%, rgba(23, 27, 28, 0.14)) !important;
+    box-shadow: 0 18px 44px color-mix(in srgb, var(--chapter) 8%, rgba(23, 27, 28, 0.06));
+  }
+  deck-stage > section:not([style*="background:color-mix"]) .card-reveal[style*="border-top"] {
+    background:
+      linear-gradient(145deg, rgba(250, 248, 243, 0.82) 0 68%, color-mix(in srgb, var(--chapter) 10%, rgba(250, 248, 243, 0.62)) 100%);
+    border-color: color-mix(in srgb, var(--chapter) 30%, rgba(23, 27, 28, 0.12)) !important;
+    box-shadow:
+      inset 0 3px 0 color-mix(in srgb, var(--chapter) 72%, transparent),
+      0 16px 36px color-mix(in srgb, var(--chapter) 7%, rgba(23, 27, 28, 0.05));
+  }
+  deck-stage > section[data-label="Contents"] .rise > div {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(90deg, rgba(250, 248, 243, 0.90), rgba(250, 248, 243, 0.34));
+  }
+  deck-stage > section[data-label="Contents"] .rise > div:nth-child(1) { box-shadow: inset 5px 0 0 #27aab8; }
+  deck-stage > section[data-label="Contents"] .rise > div:nth-child(2) { box-shadow: inset 5px 0 0 #467fc6; }
+  deck-stage > section[data-label="Contents"] .rise > div:nth-child(3) { box-shadow: inset 5px 0 0 #2f9f79; }
+  deck-stage > section[data-label="Contents"] .rise > div:nth-child(4) { box-shadow: inset 5px 0 0 #cf9437; }
+  deck-stage > section[data-label="Contents"] .rise > div:nth-child(5) { box-shadow: inset 5px 0 0 #dd7054; }
+  deck-stage > section[data-label="Contents"] .rise > div > span:first-child {
+    width: 46px;
+    height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    border-radius: 50%;
+    color: #fff !important;
+    background: var(--chapter);
+    font-size: 17px !important;
+  }
+  deck-stage > section[data-label="Contents"] .rise > div:nth-child(1) > span:first-child { background: #27aab8; }
+  deck-stage > section[data-label="Contents"] .rise > div:nth-child(2) > span:first-child { background: #467fc6; }
+  deck-stage > section[data-label="Contents"] .rise > div:nth-child(3) > span:first-child { background: #2f9f79; }
+  deck-stage > section[data-label="Contents"] .rise > div:nth-child(4) > span:first-child { background: #cf9437; }
+  deck-stage > section[data-label="Contents"] .rise > div:nth-child(5) > span:first-child { background: #dd7054; }
+  deck-stage > section[data-label="Future of work"] > .rise > div:not(:first-child),
+  deck-stage > section[data-label="Why TVET matters"] > .rise > div {
+    padding: 24px 28px !important;
+    border: 1px solid color-mix(in srgb, var(--chapter) 22%, rgba(23, 27, 28, 0.12)) !important;
+    background: linear-gradient(145deg, rgba(250, 248, 243, 0.78), color-mix(in srgb, var(--chapter) 8%, rgba(250, 248, 243, 0.62)));
+    box-shadow: 0 15px 34px color-mix(in srgb, var(--chapter) 6%, rgba(23, 27, 28, 0.05));
+  }
+  deck-stage > section[data-label="After graduation"] .q-pop,
+  deck-stage > section[data-label="Academia × Industry"] .q-pop {
+    background: linear-gradient(135deg, rgba(250, 248, 243, 0.90), color-mix(in srgb, var(--chapter) 12%, rgba(250, 248, 243, 0.72))) !important;
+    border-color: color-mix(in srgb, var(--chapter) 48%, rgba(23, 27, 28, 0.16)) !important;
+    box-shadow: 0 12px 28px color-mix(in srgb, var(--chapter) 7%, rgba(23, 27, 28, 0.04));
+  }
+  deck-stage > section[data-label="Students"] .rise-up > div {
+    background: linear-gradient(180deg, rgba(250, 248, 243, 0.82), color-mix(in srgb, var(--chapter) 12%, rgba(250, 248, 243, 0.72)));
+    border-color: color-mix(in srgb, var(--chapter) 34%, rgba(23, 27, 28, 0.16)) !important;
+    border-bottom-color: var(--chapter) !important;
+    box-shadow: 0 18px 40px color-mix(in srgb, var(--chapter) 8%, rgba(23, 27, 28, 0.05));
+  }
+  deck-stage > section[data-label="Qualified or ready"] {
+    background-image:
+      radial-gradient(circle at 28% 54%, rgba(168, 50, 46, 0.10), transparent 25%),
+      radial-gradient(circle at 72% 54%, rgba(47, 107, 79, 0.12), transparent 25%),
+      linear-gradient(110deg, rgba(250, 248, 243, 0.88), rgba(244, 241, 235, 0.64)),
+      url("assets/p10x-light-background.webp") !important;
+  }
+  deck-stage > section[data-label="The big question"] {
+    background-image:
+      radial-gradient(circle at 78% 46%, color-mix(in srgb, var(--chapter) 18%, transparent), transparent 29%),
+      linear-gradient(118deg, rgba(250, 248, 243, 0.91) 0 58%, rgba(250, 248, 243, 0.56) 58.1%),
+      url("assets/p10x-light-background.webp") !important;
+  }
+  deck-stage > section[data-label="Closing"] {
+    background-image:
+      linear-gradient(90deg, rgba(250, 248, 243, 0.92) 0 62%, color-mix(in srgb, var(--chapter) 13%, rgba(244, 241, 235, 0.68)) 62.1% 100%),
+      radial-gradient(circle at 88% 28%, color-mix(in srgb, var(--chapter) 22%, transparent), transparent 24%),
+      url("assets/p10x-light-background.webp") !important;
+  }
+  deck-stage > section[data-label="Cover"] {
+    --chapter: #28aeb7;
+    --chapter-ink: #166d73;
+    background-image:
+      radial-gradient(circle at 82% 32%, rgba(40, 174, 183, 0.16), transparent 28%),
+      linear-gradient(124deg, transparent 0 67%, rgba(40, 174, 183, 0.08) 67.1% 82%, transparent 82.1%),
+      linear-gradient(105deg, rgba(250, 248, 243, 0.91) 0%, rgba(246, 243, 237, 0.74) 62%, rgba(244, 241, 235, 0.52) 100%),
+      url("assets/p10x-light-background.webp") !important;
   }
   @media (prefers-reduced-motion: no-preference) {
     [data-deck-active] .rise { animation: rise 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
