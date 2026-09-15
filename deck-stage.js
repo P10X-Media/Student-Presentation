@@ -264,6 +264,32 @@
       background: rgba(255,255,255,0.12);
       border-radius: 4px;
     }
+    .btn.fullscreen {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      padding: 0 11px;
+      gap: 7px;
+      color: rgba(255,255,255,0.88);
+    }
+    .btn.fullscreen svg { width: 13px; height: 13px; }
+    .btn.fullscreen .kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 10px;
+      line-height: 1;
+      color: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.12);
+      border-radius: 4px;
+    }
+    .btn.fullscreen .exit-icon { display: none; }
+    :host([data-native-fullscreen]) .btn.fullscreen .enter-icon { display: none; }
+    :host([data-native-fullscreen]) .btn.fullscreen .exit-icon { display: block; }
 
     .count {
       font-variant-numeric: tabular-nums;
@@ -598,6 +624,7 @@
       this._hideTimer = null;
       this._mouseIdleTimer = null;
       this._menuIndex = -1;
+      this._nativeFullscreen = false;
 
       this._onKey = this._onKey.bind(this);
       this._onResize = this._onResize.bind(this);
@@ -605,6 +632,7 @@
       this._onMouseMove = this._onMouseMove.bind(this);
       this._onTap = this._onTap.bind(this);
       this._onMessage = this._onMessage.bind(this);
+      this._onFullscreenChange = this._onFullscreenChange.bind(this);
       // Capture-phase close so a click anywhere dismisses the menu, but
       // ignore clicks that land inside the menu itself — otherwise the
       // capture handler runs before the menu's own (bubble) handler and
@@ -636,6 +664,8 @@
       window.addEventListener('mousemove', this._onMouseMove, { passive: true });
       window.addEventListener('message', this._onMessage);
       window.addEventListener('click', this._onDocClick, true);
+      document.addEventListener('fullscreenchange', this._onFullscreenChange);
+      document.addEventListener('webkitfullscreenchange', this._onFullscreenChange);
       this.addEventListener('click', this._onTap);
       // Print lays every slide out as its own page, so [data-deck-active]-
       // gated entrance styles need the attribute on every slide (not just
@@ -876,6 +906,8 @@
       window.removeEventListener('mousemove', this._onMouseMove);
       window.removeEventListener('message', this._onMessage);
       window.removeEventListener('click', this._onDocClick, true);
+      document.removeEventListener('fullscreenchange', this._onFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', this._onFullscreenChange);
       window.removeEventListener('beforeprint', this._onBeforePrint);
       window.removeEventListener('afterprint', this._onAfterPrint);
       if (this._freezeStyle) { this._freezeStyle.remove(); this._freezeStyle = null; }
@@ -948,11 +980,18 @@
         </button>
         <span class="divider"></span>
         <button class="btn reset" type="button" aria-label="Reset to first slide" title="Reset (R)">Reset<span class="kbd">R</span></button>
+        <span class="divider"></span>
+        <button class="btn fullscreen" type="button" aria-label="Present in full screen" aria-pressed="false" title="Present in full screen (F)">
+          <svg class="enter-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2H2v4M10 2h4v4M14 10v4h-4M2 10v4h4"/></svg>
+          <svg class="exit-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2v4H2M10 2v4h4M14 10h-4v4M2 10h4v4"/></svg>
+          <span class="fullscreen-label">Present</span><span class="kbd">F</span>
+        </button>
       `;
 
       overlay.querySelector('.prev').addEventListener('click', () => this._advance(-1, 'click'));
       overlay.querySelector('.next').addEventListener('click', () => this._advance(1, 'click'));
       overlay.querySelector('.reset').addEventListener('click', () => this._go(0, 'click'));
+      overlay.querySelector('.fullscreen').addEventListener('click', () => this._toggleFullscreen());
 
       // Thumbnail rail + context menu. Thumbnails are populated in
       // _renderRail() after _collectSlides().
@@ -1311,6 +1350,42 @@
       }, OVERLAY_HIDE_MS);
     }
 
+    async _toggleFullscreen() {
+      const active = document.fullscreenElement || document.webkitFullscreenElement;
+      try {
+        if (active) {
+          if (document.exitFullscreen) await document.exitFullscreen();
+          else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+        } else if (this.requestFullscreen) {
+          await this.requestFullscreen({ navigationUI: 'hide' });
+        } else if (this.webkitRequestFullscreen) {
+          this.webkitRequestFullscreen();
+        }
+      } catch (e) {
+        console.warn('[deck-stage] Full screen request was unavailable:', e);
+      }
+    }
+
+    _onFullscreenChange() {
+      const active = document.fullscreenElement || document.webkitFullscreenElement;
+      this._nativeFullscreen = active === this;
+      this.toggleAttribute('data-native-fullscreen', this._nativeFullscreen);
+      const button = this._overlay && this._overlay.querySelector('.fullscreen');
+      if (button) {
+        const label = button.querySelector('.fullscreen-label');
+        if (label) label.textContent = this._nativeFullscreen ? 'Exit' : 'Present';
+        button.setAttribute('aria-label', this._nativeFullscreen ? 'Exit full screen' : 'Present in full screen');
+        button.setAttribute('aria-pressed', String(this._nativeFullscreen));
+        button.title = this._nativeFullscreen ? 'Exit full screen (F or Esc)' : 'Present in full screen (F)';
+      }
+      this._syncRailHidden();
+      this._closeMenu();
+      this._closeConfirm();
+      this._fit();
+      this._scaleThumbs();
+      this._flashOverlay();
+    }
+
     _railWidth() {
       // State-based, no offsetWidth: the first _fit() can run before the
       // rail has had layout on some load paths, and a 0 there paints the
@@ -1318,6 +1393,7 @@
       // corrects it.
       if (!this._railEnabled || !this._railVisible || this.hasAttribute('no-rail')
           || this.hasAttribute('noscale') || this._presenting || this._previewMode
+          || this._nativeFullscreen
           || NARROW_MQ.matches) return 0;
       return this._railPx || 0;
     }
@@ -1437,7 +1513,7 @@
       // transition. data-user-hidden is the soft hide (translateX(-100%))
       // for the viewer's rail toggle, so show/hide slides under
       // :host([data-rail-anim]).
-      const hard = !this._railEnabled || this._presenting || this._previewMode;
+      const hard = !this._railEnabled || this._presenting || this._previewMode || this._nativeFullscreen;
       if (hard) this._rail.setAttribute('data-presenting', '');
       else this._rail.removeAttribute('data-presenting');
       if (!this._railVisible) this._rail.setAttribute('data-user-hidden', '');
@@ -1511,6 +1587,8 @@
         this._go(this._slides.length - 1, 'keyboard');
       } else if (key === 'r' || key === 'R') {
         this._go(0, 'keyboard');
+      } else if (key === 'f' || key === 'F') {
+        this._toggleFullscreen();
       } else if (/^[0-9]$/.test(key)) {
         // 1..9 jump to that slide; 0 jumps to 10.
         const n = key === '0' ? 9 : parseInt(key, 10) - 1;
