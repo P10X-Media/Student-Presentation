@@ -3,11 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="only light">
+<meta name="darkreader-lock">
+<meta name="p10x-deck-build" content="2026-09-15-colour-lock">
 <title>P10X Academy — From Classroom to Career</title>
-<script src="deck-stage.js"></script>
-<link rel="stylesheet" href="_ds/classical-32b44d5e-4a3d-468a-9bf2-5ae2f115f0ec/styles.css">
-<script src="_ds/classical-32b44d5e-4a3d-468a-9bf2-5ae2f115f0ec/_ds_bundle.js"></script>
-<script src="image-slot.js"></script>
+<script src="deck-stage.js?v=20260915-colour-lock"></script>
+<link rel="stylesheet" href="_ds/classical-32b44d5e-4a3d-468a-9bf2-5ae2f115f0ec/styles.css?v=20260915-colour-lock">
 <script>
 (function () {
   function animateSlide(sec) {
@@ -45,7 +46,21 @@
 <style>
   /* P10X brand accent — the Classical accent ramp retuned to cyan #37b3be,
      same OKLCH lightness steps, so every var(--color-accent*) use follows. */
-  :root {
+  :root, deck-stage > section {
+    color-scheme: only light;
+    --color-bg: #f3f2f2 !important;
+    --color-surface: #eae9e9 !important;
+    --color-text: #201f1d !important;
+    --color-divider: rgba(32, 31, 29, 0.16) !important;
+    --color-neutral-100: #f8f4f4 !important;
+    --color-neutral-200: #eae7e7 !important;
+    --color-neutral-300: #d7d3d3 !important;
+    --color-neutral-400: #bab6b6 !important;
+    --color-neutral-500: #9b9797 !important;
+    --color-neutral-600: #7d7979 !important;
+    --color-neutral-700: #605d5d !important;
+    --color-neutral-800: #444141 !important;
+    --color-neutral-900: #2d2b2b !important;
     --color-accent: #37b3be;
     --color-accent-2: #37b3be;
     --color-accent-100: #e8f8f9;
@@ -66,6 +81,19 @@
     --color-accent-2-700: #1b6d75;
     --color-accent-2-800: #124b51;
     --color-accent-2-900: #0c3134;
+  }
+  html, body, deck-stage, deck-stage > section {
+    forced-color-adjust: none;
+  }
+  /* Keep presentation ink and paper stable when a browser or extension
+     applies a dark theme. The deck has its own deliberate dark slides. */
+  deck-stage > section {
+    color: #201f1d !important;
+    background-color: #f3f2f2 !important;
+  }
+  deck-stage > section[style*="background:color-mix"] {
+    color: #f3f2f2 !important;
+    background: #272525 !important;
   }
   @media (prefers-reduced-motion: no-preference) {
     [data-deck-active] .rise { animation: rise 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
