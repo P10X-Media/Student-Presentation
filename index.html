@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="only light">
 <meta name="darkreader-lock">
-<meta name="p10x-deck-build" content="2026-09-15-design-v2">
+<meta name="p10x-deck-build" content="2026-09-15-premium-v3">
 <title>P10X Academy — From Classroom to Career</title>
-<script src="deck-stage.js?v=20260915-design-v2"></script>
-<link rel="stylesheet" href="_ds/classical-32b44d5e-4a3d-468a-9bf2-5ae2f115f0ec/styles.css?v=20260915-design-v2">
+<script src="deck-stage.js?v=20260915-premium-v3"></script>
+<link rel="stylesheet" href="_ds/classical-32b44d5e-4a3d-468a-9bf2-5ae2f115f0ec/styles.css?v=20260915-premium-v3">
 <script>
 (function () {
   function animateSlide(sec) {
@@ -225,6 +225,261 @@
     color: rgba(55, 179, 190, 0.11);
     font-size: 230px;
     letter-spacing: 0.04em;
+  }
+  /* Premium editorial finish: warm paper, quiet texture, fine rules and
+     typographic hierarchy. These late overrides intentionally supersede the
+     earlier compatibility layer while keeping every slide's authored layout. */
+  :root, deck-stage > section {
+    --color-bg: #f4f1eb !important;
+    --color-surface: #ebe7df !important;
+    --color-text: #171b1c !important;
+    --color-divider: rgba(23, 27, 28, 0.14) !important;
+    --color-neutral-100: #faf8f3 !important;
+    --color-neutral-200: #efece5 !important;
+    --color-neutral-300: #ded9d0 !important;
+    --color-neutral-400: #c4beb4 !important;
+    --color-neutral-500: #9d9890 !important;
+    --color-neutral-600: #77746f !important;
+    --color-neutral-700: #5b5a57 !important;
+    --color-neutral-800: #333738 !important;
+    --color-neutral-900: #171b1c !important;
+    --color-accent: #28aeb7 !important;
+    --color-accent-2: #28aeb7 !important;
+    --color-accent-100: #e4f5f5 !important;
+    --color-accent-200: #bfe8ea !important;
+    --color-accent-300: #91d7dc !important;
+    --color-accent-400: #5cc1c8 !important;
+    --color-accent-500: #28aeb7 !important;
+    --color-accent-600: #1d8f97 !important;
+    --color-accent-700: #166d73 !important;
+    --color-accent-800: #104b4f !important;
+    --color-accent-900: #0b3033 !important;
+    --font-heading: "Cormorant Garamond", Georgia, "Times New Roman", serif !important;
+    --font-body: "Manrope", "Segoe UI", Arial, sans-serif !important;
+  }
+  body {
+    background: #0d1112;
+    font-family: var(--font-body);
+  }
+  deck-stage > section {
+    color: #171b1c !important;
+    background-color: #f4f1eb !important;
+    background-image:
+      linear-gradient(110deg, rgba(250, 248, 243, 0.89) 0%, rgba(246, 243, 237, 0.78) 54%, rgba(244, 241, 235, 0.69) 100%),
+      url("assets/p10x-light-background.webp") !important;
+    box-shadow:
+      inset 0 4px 0 #28aeb7,
+      inset 0 0 0 1px rgba(23, 27, 28, 0.08);
+  }
+  deck-stage > section[style*="background:color-mix"] {
+    color: #f4f1eb !important;
+    background-color: #10191b !important;
+    background-image:
+      linear-gradient(108deg, rgba(9, 15, 17, 0.80) 0%, rgba(12, 20, 22, 0.62) 58%, rgba(11, 18, 20, 0.48) 100%),
+      url("assets/p10x-dark-background.webp") !important;
+    box-shadow:
+      inset 0 4px 0 #28aeb7,
+      inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  }
+  deck-stage > section h1,
+  deck-stage > section h2,
+  deck-stage > section h3,
+  deck-stage > section h4 {
+    font-family: var(--font-heading) !important;
+    font-feature-settings: "liga" 1, "kern" 1;
+    text-rendering: geometricPrecision;
+  }
+  deck-stage > section p,
+  deck-stage > section li,
+  deck-stage > section span {
+    text-rendering: geometricPrecision;
+  }
+  deck-stage > section:not([style*="background:color-mix"]):not([data-label="Cover"])::before {
+    top: 46px;
+    left: 144px;
+    right: 144px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(23, 27, 28, 0.13);
+    color: #166d73;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+  }
+  deck-stage > section[style*="background:color-mix"]::before {
+    top: 48px;
+    left: 144px;
+    right: 144px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+    color: rgba(244, 241, 235, 0.72);
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.19em;
+  }
+  deck-stage > section:not([style*="background:color-mix"])::after,
+  deck-stage > section[style*="background:color-mix"]::after,
+  deck-stage > section[data-label="Cover"]::after {
+    content: "P10X  /  " attr(data-screen-label);
+    right: 64px;
+    bottom: 31px;
+    color: rgba(23, 27, 28, 0.34);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.18em;
+  }
+  deck-stage > section[style*="background:color-mix"]::after {
+    color: rgba(244, 241, 235, 0.38);
+  }
+  deck-stage > section:not([style*="background:color-mix"]) > h2 {
+    text-shadow: none;
+  }
+  deck-stage > section:not([style*="background:color-mix"]) > h2::after {
+    bottom: -22px;
+    width: 84px;
+    height: 2px;
+    background: #28aeb7;
+  }
+  deck-stage > section[data-label="Qualified or ready"] > h2::after {
+    width: 110px;
+  }
+  deck-stage > section [style*="border:1px solid var(--color-neutral"] {
+    background: rgba(250, 248, 243, 0.66);
+    border-color: rgba(23, 27, 28, 0.15) !important;
+    box-shadow: 0 18px 46px rgba(23, 27, 28, 0.055);
+    backdrop-filter: blur(2px);
+  }
+  deck-stage > section:not([style*="background:color-mix"]) .card-reveal[style*="border-top"] {
+    padding: 24px 26px !important;
+    border: 1px solid rgba(23, 27, 28, 0.13) !important;
+    background: rgba(250, 248, 243, 0.58);
+    box-shadow: 0 14px 36px rgba(23, 27, 28, 0.045);
+  }
+  deck-stage > section:not([style*="background:color-mix"]) .card-reveal[style*="var(--color-accent)"] {
+    border-color: rgba(40, 174, 183, 0.55) !important;
+    background: linear-gradient(145deg, rgba(228, 245, 245, 0.88), rgba(250, 248, 243, 0.64));
+  }
+  deck-stage > section[data-label="Contents"] .rise {
+    border-top: 0 !important;
+  }
+  deck-stage > section[data-label="Contents"] .rise > div {
+    margin-top: 0;
+    padding: 23px 26px !important;
+    border-left: 0;
+    border-bottom: 1px solid rgba(23, 27, 28, 0.14) !important;
+    background: linear-gradient(90deg, rgba(250, 248, 243, 0.73), rgba(250, 248, 243, 0.25));
+    box-shadow: none;
+  }
+  deck-stage > section[data-label="Contents"] .rise > div:first-child {
+    border-top: 1px solid rgba(23, 27, 28, 0.14);
+  }
+  deck-stage > section[data-label="Contents"] .rise > div > span:first-child {
+    font-family: var(--font-body);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+  }
+  deck-stage > section[data-label="Epigraph"] figure {
+    max-width: 1540px;
+    padding: 66px 86px 58px;
+    background: rgba(250, 248, 243, 0.35);
+    border-top: 1px solid rgba(40, 174, 183, 0.72);
+    border-bottom: 1px solid rgba(23, 27, 28, 0.13);
+    box-shadow: none;
+  }
+  deck-stage > section[data-label="Epigraph"] figure::before {
+    top: -62px;
+    left: 14px;
+    color: rgba(40, 174, 183, 0.16);
+    font-size: 190px;
+    font-weight: 400;
+  }
+  deck-stage > section[data-label="Epigraph"] blockquote {
+    font-style: italic;
+    font-weight: 500 !important;
+  }
+  deck-stage > section[data-label$="Divider"] > .rise {
+    position: relative;
+    width: 100%;
+    max-width: 1450px;
+    padding-left: 290px;
+    gap: 28px !important;
+  }
+  deck-stage > section[data-label$="Divider"] > .rise > div:first-child {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-52%);
+    color: rgba(40, 174, 183, 0.94) !important;
+    font-size: 250px !important;
+    line-height: 0.75 !important;
+  }
+  deck-stage > section[data-label$="Divider"] > .rise > h2 {
+    max-width: 14ch;
+    font-size: 94px !important;
+    line-height: 0.98 !important;
+  }
+  deck-stage > section[data-label$="Divider"] > .rise::before {
+    content: "";
+    width: 72px;
+    height: 1px;
+    margin-bottom: 10px;
+    background: rgba(40, 174, 183, 0.82);
+  }
+  deck-stage > section[data-label="Industry partners"] .card-reveal {
+    background: rgba(255, 255, 255, 0.045);
+    border-color: rgba(255, 255, 255, 0.16) !important;
+    box-shadow: 0 24px 54px rgba(0, 0, 0, 0.16);
+  }
+  deck-stage > section[data-label="Beyond the certificate"] > div:last-child {
+    gap: 32px !important;
+    margin-top: 50px !important;
+  }
+  deck-stage > section[data-label="Beyond the certificate"][data-screen-label] .card-reveal[style] {
+    padding: 18px 22px !important;
+  }
+  deck-stage > section[data-label="P10X model"] > div:nth-of-type(1) {
+    margin-top: 34px !important;
+  }
+  deck-stage > section[data-label="P10X model"][data-screen-label] .card-reveal[style] {
+    gap: 28px !important;
+    padding: 14px 20px !important;
+  }
+  deck-stage > section[data-label="P10X model"] > div:last-child {
+    padding-top: 20px !important;
+  }
+  deck-stage > section[data-label="One ecosystem"] .card-reveal {
+    background: rgba(250, 248, 243, 0.66);
+    border-color: rgba(23, 27, 28, 0.14) !important;
+  }
+  deck-stage > section[data-label="One ecosystem"] .card-reveal[style*="background:var(--color-accent-100)"] {
+    background: linear-gradient(145deg, rgba(228, 245, 245, 0.94), rgba(250, 248, 243, 0.72));
+    border-color: rgba(40, 174, 183, 0.55) !important;
+  }
+  deck-stage > section[data-label="Cover"] {
+    background-image:
+      linear-gradient(105deg, rgba(250, 248, 243, 0.93) 0%, rgba(246, 243, 237, 0.79) 62%, rgba(244, 241, 235, 0.62) 100%),
+      url("assets/p10x-light-background.webp") !important;
+  }
+  deck-stage > section[data-label="Cover"] h1 {
+    font-weight: 500 !important;
+    letter-spacing: -0.025em !important;
+  }
+  deck-stage > section[data-label="Cover"] > div:first-child p {
+    font-size: 20px !important;
+    font-weight: 700;
+    letter-spacing: 0.15em !important;
+  }
+  deck-stage > section[data-label="Cover"] > div:last-child > div:first-child {
+    background: linear-gradient(90deg, rgba(40, 174, 183, 0.78), rgba(23, 27, 28, 0.12)) !important;
+  }
+  deck-stage > section .plate {
+    filter: saturate(0.88) contrast(1.04);
+    border: 1px solid rgba(23, 27, 28, 0.15);
+    outline: 8px solid rgba(250, 248, 243, 0.68);
+    box-shadow: 0 24px 56px rgba(23, 27, 28, 0.14);
   }
   @media (prefers-reduced-motion: no-preference) {
     [data-deck-active] .rise { animation: rise 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
