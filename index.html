@@ -1,13 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
-</head>
-<body>
-<x-dc>
-<helmet>
+<title>P10X Academy — From Classroom to Career</title>
+<script src="deck-stage.js"></script>
 <link rel="stylesheet" href="_ds/classical-32b44d5e-4a3d-468a-9bf2-5ae2f115f0ec/styles.css">
 <script src="_ds/classical-32b44d5e-4a3d-468a-9bf2-5ae2f115f0ec/_ds_bundle.js"></script>
 <script src="image-slot.js"></script>
@@ -75,29 +72,29 @@
     [data-deck-active] .rise-step { animation: rise-step 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
     [data-deck-active] .pop { animation: pop 0.45s cubic-bezier(0.2, 0.9, 0.3, 1) both; }
     [data-deck-active] .grow-x { animation: grow-x 0.6s cubic-bezier(0.4, 0, 0.2, 1) both; }
-    @keyframes rise { from { opacity: 0; transform: translateY(10px); } }
-    @keyframes rise-step { from { opacity: 0; transform: translateY(22px); } }
+    @keyframes rise { from { transform: translateY(10px); } }
+    @keyframes rise-step { from { transform: translateY(22px); } }
     @keyframes pop { from { opacity: 0; transform: scale(0.4); } }
     @keyframes grow-x { from { transform: scaleX(0); } }
     [data-deck-active] .loop-trace { animation: loop-trace 5.5s linear infinite; }
     [data-deck-active] .rise-up { animation: rise-up 0.62s cubic-bezier(.3,.85,.25,1) both; }
-    @keyframes rise-up { from { opacity: 0; clip-path: inset(100% 0 0 0); } to { opacity: 1; clip-path: inset(0 0 0 0); } }
+    @keyframes rise-up { from { transform: translateY(18px); } }
     [data-deck-active] .rung-glow { animation: rung-glow 1.5s ease 3; }
     @keyframes rung-glow { 0%, 100% { box-shadow: none; } 50% { box-shadow: 0 0 0 10px rgba(55,179,190,0.16); } }
     [data-deck-active] .grow-y { animation: grow-y 0.7s cubic-bezier(.3,.8,.2,1) both; }
     @keyframes grow-y { from { transform: scaleY(0); } }
     [data-deck-active] .card-reveal { animation: card-reveal 0.62s cubic-bezier(.3,.8,.2,1) both; }
-    @keyframes card-reveal { from { opacity: 0; clip-path: inset(0 100% 0 0); transform: translateY(14px); } to { opacity: 1; clip-path: inset(0 0 0 0); transform: none; } }
+    @keyframes card-reveal { from { transform: translateY(14px); } }
     [data-deck-active] .lamp { animation: lamp 2.6s ease-in-out 0.2s infinite alternate; }
     @keyframes lamp { from { opacity: 0.18; transform: scale(0.9); } to { opacity: 0.5; transform: scale(1.08); } }
     [data-deck-active] .q-pop { animation: q-pop 0.42s cubic-bezier(.2,1.25,.35,1) both; }
-    @keyframes q-pop { from { opacity: 0; transform: scale(0.86) translateY(12px); } }
+    @keyframes q-pop { from { transform: scale(0.86) translateY(12px); } }
     [data-deck-active] .w { animation: word-in 0.45s ease both; }
-    @keyframes word-in { from { opacity: 0; filter: blur(5px); transform: translateY(6px); } }
+    @keyframes word-in { from { filter: blur(5px); transform: translateY(6px); } }
     [data-deck-active] .ul-sweep { animation: ul-sweep 0.7s cubic-bezier(.2,.8,.2,1) both; }
     @keyframes ul-sweep { from { transform: scaleX(0); } }
     [data-deck-active] .card-in { animation: card-in 0.55s cubic-bezier(.2,.8,.2,1) both; }
-    @keyframes card-in { from { opacity: 0; transform: translateX(90px) rotate(1.2deg); } }
+    @keyframes card-in { from { transform: translateX(90px) rotate(1.2deg); } }
     [data-deck-active] .trav { animation: travel 6s cubic-bezier(.6,0,.3,1) infinite; }
     [data-deck-active] .stuck-q { animation: stuck-q 6s ease infinite; }
     @keyframes travel {
@@ -110,8 +107,9 @@
     @keyframes loop-trace { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -1036.73; } }
   }
 </style>
-</helmet>
-<x-import component-from-global-scope="deck-stage" from="./deck-stage.js" width="1920" height="1080" hint-size="100%,100%" data-uneditable="">
+</head>
+<body>
+<deck-stage width="1920" height="1080">
 
   <section data-label="Cover" data-screen-label="01" data-speaker-notes="Introduce yourself and the theme: education does not end at qualification. The measure is whether a person can enter the real world with knowledge, competency, confidence, adaptability, attitude and the ability to create value." style="transition:opacity 320ms ease;display:flex;flex-direction:column;justify-content:center;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:104px 144px 92px;text-wrap:pretty" data-om-slide-id="cda50439">
     <div class="rise" style="animation-delay:0ms;position:absolute;top:88px;left:144px;right:144px;display:flex;align-items:center;justify-content:space-between">
@@ -487,7 +485,7 @@
     </div>
   </section>
   <section data-label="Evidence, not credentials" data-screen-label="19" data-speaker-notes="Ask the room: what could you show an employer tomorrow that proves what you can do?" style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:160px 144px 80px;text-wrap:pretty" data-om-slide-id="b45c3928">
-    <h2 data-morph="title" class="rise" style="animation-delay:0ms;" font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0"="">Don't just collect certificates</h2>
+    <h2 data-morph="title" class="rise" style="animation-delay:0ms;font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0">Don't just collect certificates</h2>
     <div class="rise" style="display:grid;grid-template-columns:repeat(5,1fr);gap:36px;margin-top:72px;align-items:end">
       <div class="rise-up" style="animation-delay:300ms;display:flex;flex-direction:column;justify-content:flex-end;gap:18px">
         <div style="border:1px solid var(--color-neutral-400);border-bottom:2px solid var(--color-neutral-600);height:200px;display:flex;flex-direction:column;justify-content:flex-end;gap:12px;padding:24px 26px">
@@ -794,13 +792,13 @@
       <span class="q-pop" style="animation-delay:2650ms;font-family:var(--font-heading);font-size:40px;line-height:44px;color:var(--color-accent-700)">Economic growth</span>
     </div>
   </section>
-  <section data-label="The big question" data-screen-label="32" data-speaker-notes="We cannot predict every job. We can prepare people who learn, adapt, solve, collaborate, use technology and create value." style="transition:opacity 320ms ease;display:flex;flex-direction:column;justify-content:center;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:104px 144px 92px;text-wrap:pretty" data-om-slide-id="d3644db7">
+  <section data-label="The big question" data-screen-label="31" data-speaker-notes="We cannot predict every job. We can prepare people who learn, adapt, solve, collaborate, use technology and create value." style="transition:opacity 320ms ease;display:flex;flex-direction:column;justify-content:center;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:104px 144px 92px;text-wrap:pretty" data-om-slide-id="d3644db7">
     <p style="position:absolute;top:96px;left:144px;font-size:24px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700);margin:0">05 · P10X Academy</p>
     <h2 class="rise" data-morph="title" style="font-family:var(--font-heading);font-weight:400;font-size:110px;line-height:120px;letter-spacing:-0.015em;margin:0 0 0 -0.04em;max-width:20ch">Are we preparing students for the jobs of today, or for the world of tomorrow?</h2>
     <p style="margin:72px 0 0;font-size:30px;line-height:46px;max-width:80ch;color:var(--color-neutral-800);border-top:1px solid var(--color-divider);padding-top:36px">Our responsibility is not to predict the future for students. It is to prepare them to navigate it: able to learn, adapt, solve problems, work with others, use technology and create value.</p>
   </section>
 
-  <section data-label="Academia × Industry" data-screen-label="33" data-speaker-notes="Not a choice between the two. A multiplication of the two." style="transition:opacity 320ms ease;display:flex;flex-direction:column;justify-content:center;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:104px 144px 92px;text-wrap:pretty">
+  <section data-label="Academia × Industry" data-screen-label="32" data-speaker-notes="Not a choice between the two. A multiplication of the two." style="transition:opacity 320ms ease;display:flex;flex-direction:column;justify-content:center;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:104px 144px 92px;text-wrap:pretty">
     <div style="display:flex;flex-direction:column;gap:52px">
       <p class="rise" style="font-size:42px;line-height:52px;margin:0;color:var(--color-neutral-700);animation-delay:0ms">The future should not be <span style="text-decoration:line-through;text-decoration-color:#a8322e;text-decoration-thickness:3px;color:#a8322e">academia or industry</span>. It should be:</p>
       <h2 data-morph="title" class="rise" style="font-family:var(--font-heading);font-weight:400;font-size:140px;line-height:150px;letter-spacing:-0.015em;margin:0 0 0 -0.04em;animation-delay:500ms">Academia <span style="color:var(--color-accent-700)">×</span> Industry</h2>
@@ -823,7 +821,7 @@
       </div>
     </div>
   </section>
-  <section data-label="Closing" data-screen-label="34" data-speaker-notes="Close on the two questions: how many did we graduate, versus how many lives did we prepare for meaningful careers. Then invite them to come and talk." style="transition:opacity 320ms ease;display:flex;flex-direction:column;justify-content:center;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:120px 144px 100px;text-wrap:pretty">
+  <section data-label="Closing" data-screen-label="33" data-speaker-notes="Close on the two questions: how many did we graduate, versus how many lives did we prepare for meaningful careers. Then invite them to come and talk." style="transition:opacity 320ms ease;display:flex;flex-direction:column;justify-content:center;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:120px 144px 100px;text-wrap:pretty">
     <div style="display:flex;flex-direction:column;gap:44px">
       <h2 data-morph="title" class="rise" style="font-family:var(--font-heading);font-weight:400;font-size:92px;line-height:104px;letter-spacing:-0.015em;margin:0 0 0 -0.04em;max-width:24ch;animation-delay:0ms">Let's not just produce graduates. Let's build people who can <span style="position:relative;display:inline-block;color:var(--color-accent-700)">create value<span class="ul-sweep" style="position:absolute;left:0;right:0;bottom:8px;height:7px;background:var(--color-accent);opacity:0.4;transform-origin:left center;animation-delay:900ms"></span></span>.</h2>
       <div style="display:flex;gap:24px;flex-wrap:wrap">
@@ -841,7 +839,6 @@
     </div>
   </section>
 
-</x-import>
-</x-dc>
+</deck-stage>
 </body>
 </html>
