@@ -1599,7 +1599,6 @@
 
       if (handled) {
         e.preventDefault();
-        this._flashOverlay();
       }
     }
 
@@ -1610,12 +1609,9 @@
       if (reason === 'keyboard' || reason === 'tap') this._clearSelection();
       if (!this._slides.length) return;
       const clamped = Math.max(0, Math.min(this._slides.length - 1, i));
-      if (clamped === this._index) {
-        this._flashOverlay();
-        return;
-      }
+      if (clamped === this._index) return;
       this._index = clamped;
-      this._applyIndex({ showOverlay: true, broadcast: true, reason });
+      this._applyIndex({ showOverlay: false, broadcast: true, reason });
     }
 
     /** Step forward/back skipping any slide marked data-deck-skip. Falls
@@ -1627,7 +1623,7 @@
       while (i >= 0 && i < this._slides.length && this._slides[i].hasAttribute('data-deck-skip')) {
         i += dir;
       }
-      if (i < 0 || i >= this._slides.length) { this._flashOverlay(); return; }
+      if (i < 0 || i >= this._slides.length) return;
       this._go(i, reason);
     }
 
