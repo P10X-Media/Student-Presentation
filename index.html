@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="only light">
 <meta name="darkreader-lock">
-<meta name="p10x-deck-build" content="2026-09-15-colour-lock">
+<meta name="p10x-deck-build" content="2026-09-15-design-v2">
 <title>P10X Academy — From Classroom to Career</title>
-<script src="deck-stage.js?v=20260915-colour-lock"></script>
-<link rel="stylesheet" href="_ds/classical-32b44d5e-4a3d-468a-9bf2-5ae2f115f0ec/styles.css?v=20260915-colour-lock">
+<script src="deck-stage.js?v=20260915-design-v2"></script>
+<link rel="stylesheet" href="_ds/classical-32b44d5e-4a3d-468a-9bf2-5ae2f115f0ec/styles.css?v=20260915-design-v2">
 <script>
 (function () {
   function animateSlide(sec) {
@@ -90,10 +90,141 @@
   deck-stage > section {
     color: #201f1d !important;
     background-color: #f3f2f2 !important;
+    background-image:
+      linear-gradient(rgba(243, 242, 242, 0.56), rgba(243, 242, 242, 0.56)),
+      url("assets/p10x-light-background.webp") !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    box-shadow:
+      inset 0 14px 0 rgba(55, 179, 190, 0.95),
+      inset 0 0 0 1px rgba(32, 31, 29, 0.08);
+    isolation: isolate;
   }
   deck-stage > section[style*="background:color-mix"] {
     color: #f3f2f2 !important;
-    background: #272525 !important;
+    background-color: #272525 !important;
+    background-image:
+      linear-gradient(rgba(18, 20, 21, 0.18), rgba(18, 20, 21, 0.18)),
+      url("assets/p10x-dark-background.webp") !important;
+    background-size: cover !important;
+    background-position: center !important;
+    box-shadow: inset 0 14px 0 rgba(55, 179, 190, 0.95);
+  }
+  deck-stage > section > * {
+    z-index: 1;
+  }
+  deck-stage > section:not([style*="background:color-mix"]):not([data-label="Cover"])::before {
+    content: "P10X ACADEMY   /   " attr(data-label);
+    position: absolute;
+    top: 54px;
+    left: 144px;
+    right: 144px;
+    z-index: 2;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(55, 179, 190, 0.46);
+    color: #1b6d75;
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+  deck-stage > section:not([style*="background:color-mix"])::after {
+    content: "P10X";
+    position: absolute;
+    right: 62px;
+    bottom: 18px;
+    z-index: 0;
+    color: rgba(55, 179, 190, 0.10);
+    font-family: var(--font-heading);
+    font-size: 150px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.06em;
+  }
+  deck-stage > section[style*="background:color-mix"]::before {
+    content: "P10X ACADEMY   /   " attr(data-label);
+    position: absolute;
+    top: 58px;
+    left: 144px;
+    z-index: 2;
+    color: rgba(243, 242, 242, 0.68);
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+  deck-stage > section[style*="background:color-mix"]::after {
+    content: "P10X";
+    position: absolute;
+    right: 88px;
+    bottom: -72px;
+    z-index: 0;
+    color: rgba(55, 179, 190, 0.10);
+    font-family: var(--font-heading);
+    font-size: 420px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.08em;
+  }
+  deck-stage > section:not([style*="background:color-mix"]) > h2 {
+    position: relative;
+    text-shadow: 0 2px 18px rgba(255, 255, 255, 0.92);
+  }
+  deck-stage > section:not([style*="background:color-mix"]) > h2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -28px;
+    width: 132px;
+    height: 5px;
+    background: #37b3be;
+  }
+  deck-stage > section[data-label="Qualified or ready"] > h2::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  deck-stage > section [style*="border:1px solid var(--color-neutral"] {
+    background-color: rgba(255, 255, 255, 0.68);
+    box-shadow: 0 14px 30px rgba(32, 31, 29, 0.07);
+  }
+  deck-stage > section[data-label="Contents"] .rise > div {
+    margin-top: 8px;
+    padding-left: 26px !important;
+    padding-right: 26px !important;
+    border-left: 5px solid rgba(55, 179, 190, 0.78);
+    background: rgba(255, 255, 255, 0.60);
+    box-shadow: 0 8px 22px rgba(32, 31, 29, 0.045);
+  }
+  deck-stage > section[data-label="Epigraph"] figure {
+    position: relative;
+    padding: 74px 120px 62px;
+    background: rgba(255, 255, 255, 0.58);
+    border-top: 5px solid #37b3be;
+    box-shadow: 0 24px 64px rgba(32, 31, 29, 0.09);
+  }
+  deck-stage > section[data-label="Epigraph"] figure::before {
+    content: "“";
+    position: absolute;
+    top: -86px;
+    left: 34px;
+    color: rgba(55, 179, 190, 0.22);
+    font-family: var(--font-heading);
+    font-size: 250px;
+    line-height: 1;
+  }
+  deck-stage > section[data-label="Cover"] {
+    background-position: center !important;
+  }
+  deck-stage > section[data-label="Cover"]::after {
+    content: "P10X";
+    right: 78px;
+    bottom: -18px;
+    color: rgba(55, 179, 190, 0.11);
+    font-size: 230px;
+    letter-spacing: 0.04em;
   }
   @media (prefers-reduced-motion: no-preference) {
     [data-deck-active] .rise { animation: rise 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
