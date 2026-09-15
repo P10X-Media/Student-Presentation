@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/classical-32b44d5e-4a3d-468a-9bf2-5ae2f115f0ec/styles.css">
+<script src="_ds/classical-32b44d5e-4a3d-468a-9bf2-5ae2f115f0ec/_ds_bundle.js"></script>
+<script src="image-slot.js"></script>
+<script>
+(function () {
+  function animateSlide(sec) {
+    if (!sec || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (sec.querySelector('[style*="animation-delay"]')) return; // hand-authored sequence wins
+    var seq = [];
+    Array.prototype.forEach.call(sec.children, function (ch) {
+      var cs = getComputedStyle(ch);
+      var kids = Array.prototype.filter.call(ch.children, function (k) { return k.nodeType === 1; });
+      if ((cs.display === 'grid' || cs.display === 'flex') && kids.length >= 3) seq = seq.concat(kids);
+      else seq.push(ch);
+    });
+    seq.forEach(function (el, i) {
+      el.style.animation = 'none';
+      void el.offsetWidth;
+      el.style.animation = 'rise-step 0.5s cubic-bezier(.2,.8,.2,1) both';
+      el.style.animationDelay = (120 + i * 90) + 'ms';
+    });
+  }
+  function boot() {
+    var stage = document.querySelector('deck-stage');
+    if (!stage || !stage._go || !stage._slides) return setTimeout(boot, 150);
+    if (stage.__fadeWrapped) return;
+    stage.__fadeWrapped = true;
+    var orig = stage._go.bind(stage);
+    stage._go = function (i, reason) {
+      orig(i, reason);
+      animateSlide(stage._slides[stage._index]);
+    };
+    setTimeout(function () { animateSlide(stage._slides[stage._index || 0]); }, 250);
+  }
+  boot();
+})();
+</script>
+<style>
+  /* P10X brand accent — the Classical accent ramp retuned to cyan #37b3be,
+     same OKLCH lightness steps, so every var(--color-accent*) use follows. */
+  :root {
+    --color-accent: #37b3be;
+    --color-accent-2: #37b3be;
+    --color-accent-100: #e8f8f9;
+    --color-accent-200: #c4ecef;
+    --color-accent-300: #97dce2;
+    --color-accent-400: #66c8d1;
+    --color-accent-500: #37b3be;
+    --color-accent-600: #26919b;
+    --color-accent-700: #1b6d75;
+    --color-accent-800: #124b51;
+    --color-accent-900: #0c3134;
+    --color-accent-2-100: #e8f8f9;
+    --color-accent-2-200: #c4ecef;
+    --color-accent-2-300: #97dce2;
+    --color-accent-2-400: #66c8d1;
+    --color-accent-2-500: #37b3be;
+    --color-accent-2-600: #26919b;
+    --color-accent-2-700: #1b6d75;
+    --color-accent-2-800: #124b51;
+    --color-accent-2-900: #0c3134;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    [data-deck-active] .rise { animation: rise 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+    [data-deck-active] .rise-step { animation: rise-step 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+    [data-deck-active] .pop { animation: pop 0.45s cubic-bezier(0.2, 0.9, 0.3, 1) both; }
+    [data-deck-active] .grow-x { animation: grow-x 0.6s cubic-bezier(0.4, 0, 0.2, 1) both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(10px); } }
+    @keyframes rise-step { from { opacity: 0; transform: translateY(22px); } }
+    @keyframes pop { from { opacity: 0; transform: scale(0.4); } }
+    @keyframes grow-x { from { transform: scaleX(0); } }
+    [data-deck-active] .loop-trace { animation: loop-trace 5.5s linear infinite; }
+    [data-deck-active] .rise-up { animation: rise-up 0.62s cubic-bezier(.3,.85,.25,1) both; }
+    @keyframes rise-up { from { opacity: 0; clip-path: inset(100% 0 0 0); } to { opacity: 1; clip-path: inset(0 0 0 0); } }
+    [data-deck-active] .rung-glow { animation: rung-glow 1.5s ease 3; }
+    @keyframes rung-glow { 0%, 100% { box-shadow: none; } 50% { box-shadow: 0 0 0 10px rgba(55,179,190,0.16); } }
+    [data-deck-active] .grow-y { animation: grow-y 0.7s cubic-bezier(.3,.8,.2,1) both; }
+    @keyframes grow-y { from { transform: scaleY(0); } }
+    [data-deck-active] .card-reveal { animation: card-reveal 0.62s cubic-bezier(.3,.8,.2,1) both; }
+    @keyframes card-reveal { from { opacity: 0; clip-path: inset(0 100% 0 0); transform: translateY(14px); } to { opacity: 1; clip-path: inset(0 0 0 0); transform: none; } }
+    [data-deck-active] .lamp { animation: lamp 2.6s ease-in-out 0.2s infinite alternate; }
+    @keyframes lamp { from { opacity: 0.18; transform: scale(0.9); } to { opacity: 0.5; transform: scale(1.08); } }
+    [data-deck-active] .q-pop { animation: q-pop 0.42s cubic-bezier(.2,1.25,.35,1) both; }
+    @keyframes q-pop { from { opacity: 0; transform: scale(0.86) translateY(12px); } }
+    [data-deck-active] .w { animation: word-in 0.45s ease both; }
+    @keyframes word-in { from { opacity: 0; filter: blur(5px); transform: translateY(6px); } }
+    [data-deck-active] .ul-sweep { animation: ul-sweep 0.7s cubic-bezier(.2,.8,.2,1) both; }
+    @keyframes ul-sweep { from { transform: scaleX(0); } }
+    [data-deck-active] .card-in { animation: card-in 0.55s cubic-bezier(.2,.8,.2,1) both; }
+    @keyframes card-in { from { opacity: 0; transform: translateX(90px) rotate(1.2deg); } }
+    [data-deck-active] .trav { animation: travel 6s cubic-bezier(.6,0,.3,1) infinite; }
+    [data-deck-active] .stuck-q { animation: stuck-q 6s ease infinite; }
+    @keyframes travel {
+      0%, 12% { left: 0%; }
+      20%, 36% { left: 25%; }
+      44%, 60% { left: 50%; }
+      68%, 100% { left: 75%; }
+    }
+    @keyframes stuck-q { 0%, 70% { opacity: 0; transform: translateY(4px); } 82%, 100% { opacity: 1; transform: translateY(0); } }
+    @keyframes loop-trace { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -1036.73; } }
+  }
+</style>
+</helmet>
+<x-import component-from-global-scope="deck-stage" from="./deck-stage.js" width="1920" height="1080" hint-size="100%,100%" data-uneditable="">
+
+  <section data-label="Cover" data-screen-label="01" data-speaker-notes="Introduce yourself and the theme: education does not end at qualification. The measure is whether a person can enter the real world with knowledge, competency, confidence, adaptability, attitude and the ability to create value." style="transition:opacity 320ms ease;display:flex;flex-direction:column;justify-content:center;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:104px 144px 92px;text-wrap:pretty" data-om-slide-id="cda50439">
+    <div class="rise" style="animation-delay:0ms;position:absolute;top:88px;left:144px;right:144px;display:flex;align-items:center;justify-content:space-between">
+      <p style="font-size:24px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700);margin:0">Connecting TVET, Industry &amp; Employment</p>
+      <img src="assets/p10x-logo.png" alt="P10X Academy" style="width:230px;height:auto;display:block">
+    </div>
+    <div class="rise" style="animation-delay:120ms;display:flex;flex-direction:column;gap:42px">
+      <h1 data-morph="title" style="font-family:var(--font-heading);font-weight:400;font-size:140px;line-height:130px;letter-spacing:-0.015em;margin:0 0 0 -0.04em">From Classroom<br>to <span style="position:relative;display:inline-block">Career<span class="ul-sweep" style="position:absolute;left:0;right:0;bottom:14px;height:8px;background:var(--color-accent);transform-origin:left center;animation-delay:700ms"></span></span></h1>
+      <p style="font-size:42px;line-height:52px;max-width:34ch;margin:0;color:var(--color-neutral-800)">Bridging the gap between education, industry and employment.</p>
+    </div>
+    <div class="rise" style="animation-delay:300ms;position:absolute;left:144px;right:144px;bottom:92px;display:flex;flex-direction:column;gap:8px">
+      <div style="height:1px;background:var(--color-divider);margin-bottom:28px"></div>
+      <p style="font-size:30px;line-height:44px;margin:0">Puan Salwani Noor</p>
+      <p style="font-size:24px;line-height:36px;margin:0;color:var(--color-neutral-700)">COO, P10X Academy · TVET &amp; Industry Practitioner</p>
+    </div>
+  </section>
+
+  <section data-label="Epigraph" data-screen-label="02" data-speaker-notes="Read it slowly. The purpose is not graduates. It is people who contribute." style="transition:opacity 320ms ease;display:flex;flex-direction:column;justify-content:center;align-items:center;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:104px 120px 92px;text-wrap:pretty">
+    <figure style="margin:0;display:flex;flex-direction:column;align-items:center;gap:56px;text-align:center;width:100%">
+      <blockquote style="font-family:var(--font-heading);font-weight:400;font-size:72px;line-height:96px;letter-spacing:-0.005em;max-width:38ch;margin:0"><span class="w" style="display:inline-block;animation-delay:120ms">“The</span> <span class="w" style="display:inline-block;animation-delay:215ms">purpose</span> <span class="w" style="display:inline-block;animation-delay:310ms">of</span> <span class="w" style="display:inline-block;animation-delay:405ms">education</span> <span class="w" style="display:inline-block;animation-delay:500ms">is</span> <span class="w" style="display:inline-block;animation-delay:595ms">not</span> <span class="w" style="display:inline-block;animation-delay:690ms">simply</span> <span class="w" style="display:inline-block;animation-delay:785ms">to</span> <span class="w" style="display:inline-block;animation-delay:880ms">produce</span> <span class="w" style="display:inline-block;animation-delay:975ms">graduates.</span> <span class="w" style="display:inline-block;animation-delay:1070ms">The</span> <span class="w" style="display:inline-block;animation-delay:1165ms">purpose</span> <span class="w" style="display:inline-block;animation-delay:1260ms">is</span> <span class="w" style="display:inline-block;animation-delay:1355ms">to</span> <span class="w" style="display:inline-block;animation-delay:1450ms">prepare</span> <span class="w" style="display:inline-block;animation-delay:1545ms">people</span> <span class="w" style="display:inline-block;animation-delay:1640ms">to</span> <span class="w" style="display:inline-block;animation-delay:1735ms">contribute</span> <span class="w" style="display:inline-block;animation-delay:1830ms">meaningfully</span> <span class="w" style="display:inline-block;animation-delay:1925ms">to</span> <span class="w" style="display:inline-block;animation-delay:2020ms">society,</span> <span class="w" style="display:inline-block;animation-delay:2115ms">industry</span> <span class="w" style="display:inline-block;animation-delay:2210ms">and</span> <span class="w" style="display:inline-block;animation-delay:2305ms">the</span> <span class="w" style="display:inline-block;animation-delay:2400ms">economy.”</span></blockquote>
+      <figcaption class="rise" style="font-size:30px;color:var(--color-neutral-700);animation-delay:2495ms">Opening thought</figcaption>
+    </figure>
+  </section>
+  <section data-label="Contents" data-screen-label="03" data-speaker-notes="Five movements. Tell students the last one is about what they do on Monday morning." style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:160px 144px 80px;text-wrap:pretty" data-om-slide-id="564cb8c6">
+    <h2 data-morph="title" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0">Contents</h2>
+    <div class="rise" style="display:flex;flex-direction:column;max-width:1240px;margin-top:88px;border-top:1px solid var(--color-divider);font-size:42px">
+      <div style="display:flex;align-items:baseline;gap:54px;border-bottom:1px solid var(--color-divider);padding:28px 0"><span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">01</span><span>The question after graduation</span></div>
+      <div style="display:flex;align-items:baseline;gap:54px;border-bottom:1px solid var(--color-divider);padding:28px 0"><span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">02</span><span>A world of work that keeps moving</span></div>
+      <div style="display:flex;align-items:baseline;gap:54px;border-bottom:1px solid var(--color-divider);padding:28px 0"><span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">03</span><span>Building your employability</span></div>
+      <div style="display:flex;align-items:baseline;gap:54px;border-bottom:1px solid var(--color-divider);padding:28px 0"><span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">04</span><span>The ecosystem around you</span></div>
+      <div style="display:flex;align-items:baseline;gap:54px;border-bottom:1px solid var(--color-divider);padding:28px 0"><span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">05</span><span>P10X Academy and what you do next</span></div>
+    </div>
+  </section>
+
+  <section data-label="01 · Divider" data-screen-label="04" data-speaker-notes="Section one: the transition nobody rehearses." style="transition:opacity 320ms ease;display:flex;flex-direction:column;justify-content:center;background:color-mix(in srgb, var(--color-neutral-900) 85%, black);color:var(--color-bg);font-family:var(--font-body);padding:104px 144px 92px;text-wrap:pretty" data-om-slide-id="383b17ee">
+    <div class="rise" style="display:flex;flex-direction:column;align-items:flex-start;gap:52px">
+      <div style="font-family:var(--font-heading);font-weight:400;font-size:300px;line-height:0.9;letter-spacing:-0.015em;color:var(--color-accent);font-feature-settings:'tnum' 1;margin-left:-0.042em">01</div>
+      <h2 data-morph="title" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0">The question after graduation</h2>
+    </div>
+  </section>
+
+  <section data-label="After graduation" data-screen-label="05" data-speaker-notes="Years of classes, assignments, examinations, industrial training. Then one day the questions change completely." style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:160px 144px 80px;text-wrap:pretty" data-om-slide-id="614acdb5">
+    <h2 data-morph="title" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0">What happens after graduation?</h2>
+    <div style="display:flex;flex-direction:column;gap:18px;margin-top:64px">
+      <span class="rise" style="font-size:24px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">On campus: the years you can plan</span>
+      <div style="position:relative;display:grid;grid-template-columns:repeat(5,1fr);column-gap:28px;padding-top:20px">
+        <div class="grow-x" style="position:absolute;left:0;right:0;top:28px;height:1px;background:var(--color-divider);transform-origin:left center;animation-delay:240ms;animation-duration:1.1s"></div>
+        <div class="rise-step" style="position:relative;display:flex;flex-direction:column;gap:20px;animation-delay:420ms"><div class="pop" style="width:17px;height:17px;border-radius:50%;border:1.5px solid var(--color-neutral-600);background:var(--color-bg);animation-delay:580ms"></div><span style="font-family:var(--font-heading);font-size:34px;line-height:40px">Classes</span></div>
+        <div class="rise-step" style="position:relative;display:flex;flex-direction:column;gap:20px;animation-delay:760ms"><div class="pop" style="width:17px;height:17px;border-radius:50%;border:1.5px solid var(--color-neutral-600);background:var(--color-bg);animation-delay:920ms"></div><span style="font-family:var(--font-heading);font-size:34px;line-height:40px">Assignments</span></div>
+        <div class="rise-step" style="position:relative;display:flex;flex-direction:column;gap:20px;animation-delay:1100ms"><div class="pop" style="width:17px;height:17px;border-radius:50%;border:1.5px solid var(--color-neutral-600);background:var(--color-bg);animation-delay:1260ms"></div><span style="font-family:var(--font-heading);font-size:34px;line-height:40px">Examinations</span></div>
+        <div class="rise-step" style="position:relative;display:flex;flex-direction:column;gap:20px;animation-delay:1440ms"><div class="pop" style="width:17px;height:17px;border-radius:50%;border:1.5px solid var(--color-neutral-600);background:var(--color-bg);animation-delay:1600ms"></div><span style="font-family:var(--font-heading);font-size:34px;line-height:40px">Industrial training</span></div>
+        <div class="rise-step" style="position:relative;display:flex;flex-direction:column;gap:20px;animation-delay:1780ms"><div class="pop" style="width:17px;height:17px;border-radius:50%;background:var(--color-accent);animation-delay:1940ms"></div><span style="font-family:var(--font-heading);font-size:34px;line-height:40px">Graduation</span></div>
+      </div>
+    </div>
+    <div class="rise" style="display:flex;align-items:center;gap:28px;margin-top:52px;animation-delay:2300ms">
+      <div style="flex:1;height:1px;background:var(--color-accent);opacity:0.5"></div>
+      <span style="font-family:var(--font-heading);font-size:44px;line-height:48px;color:var(--color-accent-700);white-space:nowrap">Campus → Workplace</span>
+      <div style="flex:1;height:1px;background:var(--color-accent);opacity:0.5"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:18px;margin-top:52px">
+      <span class="rise" style="font-size:24px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700);animation-delay:2900ms">In the workplace: the questions change</span>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px">
+        <div class="q-pop" style="border:1px solid var(--color-neutral-400);padding:22px 26px;display:flex;align-items:center;gap:16px;animation-delay:3200ms"><span style="color:var(--color-accent-700);font-size:26px">?</span><span style="font-size:28px;line-height:38px">Can you perform?</span></div>
+        <div class="q-pop" style="border:1px solid var(--color-neutral-400);padding:22px 26px;display:flex;align-items:center;gap:16px;animation-delay:3460ms"><span style="color:var(--color-accent-700);font-size:26px">?</span><span style="font-size:28px;line-height:38px">Can you solve problems?</span></div>
+        <div class="q-pop" style="border:1px solid var(--color-neutral-400);padding:22px 26px;display:flex;align-items:center;gap:16px;animation-delay:3720ms"><span style="color:var(--color-accent-700);font-size:26px">?</span><span style="font-size:28px;line-height:38px">Can you work with people?</span></div>
+        <div class="q-pop" style="border:1px solid var(--color-neutral-400);padding:22px 26px;display:flex;align-items:center;gap:16px;animation-delay:3980ms"><span style="color:var(--color-accent-700);font-size:26px">?</span><span style="font-size:28px;line-height:38px">Can you communicate with customers?</span></div>
+        <div class="q-pop" style="border:1px solid var(--color-neutral-400);padding:22px 26px;display:flex;align-items:center;gap:16px;animation-delay:4240ms"><span style="color:var(--color-accent-700);font-size:26px">?</span><span style="font-size:28px;line-height:38px">Can you adapt to new technology?</span></div>
+        <div class="q-pop" style="border:1px solid var(--color-neutral-400);padding:22px 26px;display:flex;align-items:center;gap:16px;animation-delay:4500ms"><span style="color:var(--color-accent-700);font-size:26px">?</span><span style="font-size:28px;line-height:38px">Can you contribute to the organisation?</span></div>
+      </div>
+    </div>
+  </section>
+  <section data-label="Qualified or ready" data-screen-label="06" data-speaker-notes="Pause here. Let the room sit with it." style="transition:opacity 320ms ease;display:flex;flex-direction:column;justify-content:center;align-items:center;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:104px 200px 92px;text-wrap:pretty" data-om-slide-id="d825062b">
+    <p class="rise" style="position:absolute;top:96px;left:144px;font-size:24px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700);margin:0;animation-delay:0ms">01 · The question after graduation</p>
+    <h2 class="rise" data-morph="title" style="font-family:var(--font-heading);font-weight:400;font-size:110px;line-height:124px;letter-spacing:-0.015em;margin:0;max-width:22ch;text-align:center;animation-delay:150ms">Are our graduates <span style="position:relative;display:inline-block;color:#a8322e">qualified,<span class="ul-sweep" style="position:absolute;left:0;right:0;bottom:10px;height:7px;background:#a8322e;opacity:0.35;transform-origin:left center;animation-delay:900ms"></span></span> or are they truly <span style="position:relative;display:inline-block;color:#2f6b4f">ready<span class="ul-sweep" style="position:absolute;left:0;right:0;bottom:10px;height:7px;background:#2f6b4f;opacity:0.35;transform-origin:left center;animation-delay:1600ms"></span></span>?</h2>
+  </section>
+  <section data-label="Qualification → Employability" data-screen-label="07" data-speaker-notes="A qualification is evidence of a completed journey. Each step stands on the one before it: the certificate opens the door, competency gets you hired, employability keeps you growing." style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:160px 144px 80px;text-wrap:pretty" data-om-slide-id="19162212">
+    <h2 data-morph="title" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0">A qualification opens the door. Competency takes you further.</h2>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:48px;margin-top:auto;align-items:end">
+      <div class="rise-step" style="display:flex;flex-direction:column;justify-content:flex-end;gap:20px;animation-delay:120ms">
+        <div style="border:1px solid var(--color-neutral-400);border-bottom:3px solid var(--color-neutral-600);height:360px;display:flex;flex-direction:column;justify-content:flex-end;gap:20px;padding:32px 34px">
+          <span style="font-size:24px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700);font-feature-settings:'tnum' 1">01</span>
+          <span style="font-family:var(--font-heading);font-size:52px;line-height:56px;">Qualification</span>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;font-size:28px;line-height:40px">
+            <li style="display:flex;gap:14px"><span style="color:var(--color-accent-700)">•</span><span>What you have studied</span></li>
+            <li style="display:flex;gap:14px"><span style="color:var(--color-accent-700)">•</span><span>What you have learned</span></li>
+            <li style="display:flex;gap:14px"><span style="color:var(--color-accent-700)">•</span><span>The level you achieved</span></li>
+          </ul>
+        </div>
+        <span style="font-size:26px;line-height:38px;color:var(--color-neutral-700)">Gets you the interview</span>
+      </div>
+      <div class="rise-step" style="display:flex;flex-direction:column;justify-content:flex-end;gap:20px;animation-delay:320ms">
+        <div style="border:1px solid var(--color-neutral-400);border-bottom:3px solid var(--color-neutral-600);height:470px;display:flex;flex-direction:column;justify-content:flex-end;gap:20px;padding:32px 34px">
+          <span style="font-size:24px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700);font-feature-settings:'tnum' 1">02</span>
+          <span style="font-family:var(--font-heading);font-size:52px;line-height:56px;">Competency</span>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;font-size:28px;line-height:40px">
+            <li style="display:flex;gap:14px"><span style="color:var(--color-accent-700)">•</span><span>What you can perform</span></li>
+            <li style="display:flex;gap:14px"><span style="color:var(--color-accent-700)">•</span><span>How you apply knowledge</span></li>
+            <li style="display:flex;gap:14px"><span style="color:var(--color-accent-700)">•</span><span>How you solve problems</span></li>
+            <li style="display:flex;gap:14px"><span style="color:var(--color-accent-700)">•</span><span>How you respond to real situations</span></li>
+          </ul>
+        </div>
+        <span style="font-size:26px;line-height:38px;color:var(--color-neutral-700)">Gets you hired</span>
+      </div>
+      <div class="rise-step" style="display:flex;flex-direction:column;justify-content:flex-end;gap:20px;animation-delay:520ms">
+        <div style="border:1px solid var(--color-accent);border-bottom:3px solid var(--color-accent);height:580px;display:flex;flex-direction:column;justify-content:flex-end;gap:20px;padding:32px 34px">
+          <span style="font-size:24px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700);font-feature-settings:'tnum' 1">03</span>
+          <span style="font-family:var(--font-heading);font-size:52px;line-height:56px;color:var(--color-accent-700)">Employability</span>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;font-size:28px;line-height:40px">
+            <li style="display:flex;gap:14px"><span style="color:var(--color-accent-700)">•</span><span>Whether you contribute</span></li>
+            <li style="display:flex;gap:14px"><span style="color:var(--color-accent-700)">•</span><span>Whether you work professionally</span></li>
+            <li style="display:flex;gap:14px"><span style="color:var(--color-accent-700)">•</span><span>Whether you can adapt</span></li>
+            <li style="display:flex;gap:14px"><span style="color:var(--color-accent-700)">•</span><span>Whether you can be trusted</span></li>
+            <li style="display:flex;gap:14px"><span style="color:var(--color-accent-700)">•</span><span>What difference you make</span></li>
+          </ul>
+        </div>
+        <span style="font-size:26px;line-height:38px;color:var(--color-neutral-700)">Keeps you growing</span>
+      </div>
+    </div>
+  </section>
+  <section data-label="02 · Divider" data-screen-label="08" data-speaker-notes="Section two: the world they are walking into is not the world we prepared for." style="transition:opacity 320ms ease;display:flex;flex-direction:column;justify-content:center;background:color-mix(in srgb, var(--color-neutral-900) 85%, black);color:var(--color-bg);font-family:var(--font-body);padding:104px 144px 92px;text-wrap:pretty" data-om-slide-id="54c9dd75">
+    <div class="rise" style="display:flex;flex-direction:column;align-items:flex-start;gap:52px">
+      <div style="font-family:var(--font-heading);font-weight:400;font-size:300px;line-height:0.9;letter-spacing:-0.015em;color:var(--color-accent);font-feature-settings:'tnum' 1;margin-left:-0.042em">02</div>
+      <h2 data-morph="title" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0">A world of work that keeps moving</h2>
+    </div>
+  </section>
+
+  <section data-label="Future of work" data-screen-label="09" data-speaker-notes="Four things technology is changing at once: how we work, what we work with, what customers expect, how businesses compete." style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:160px 144px 80px;text-wrap:pretty" data-om-slide-id="f9048eb3">
+    <h2 data-morph="title" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0">The future of work is already here</h2>
+    <div class="rise" style="position:relative;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;column-gap:96px;row-gap:52px;margin-top:64px;flex:1">
+      <div style="position:absolute;left:calc(50% - 0.5px);top:0;bottom:0;width:1px;background:var(--color-divider)"></div>
+      <div style="display:flex;flex-direction:column;gap:18px;padding-bottom:44px;border-bottom:1px solid var(--color-divider)">
+        <span style="width:64px;height:3px;background:var(--color-accent)"></span><h3 style="font-family:var(--font-heading);font-weight:400;font-size:54px;line-height:58px;margin:0;color:var(--color-accent-700)">How we work</h3>
+        <p style="font-size:30px;line-height:46px;margin:0;color:var(--color-neutral-800)">Automation, AI and digital platforms are changing workplace processes.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:18px;padding-bottom:44px;border-bottom:1px solid var(--color-divider)">
+        <span style="width:64px;height:3px;background:var(--color-accent)"></span><h3 style="font-family:var(--font-heading);font-weight:400;font-size:54px;line-height:58px;margin:0;color:var(--color-accent-700)">What we work with</h3>
+        <p style="font-size:30px;line-height:46px;margin:0;color:var(--color-neutral-800)">EV, robotics, smart systems, advanced materials and connected technologies create new technical requirements.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <span style="width:64px;height:3px;background:var(--color-accent)"></span><h3 style="font-family:var(--font-heading);font-weight:400;font-size:54px;line-height:58px;margin:0;color:var(--color-accent-700)">What customers expect</h3>
+        <p style="font-size:30px;line-height:46px;margin:0;color:var(--color-neutral-800)">Faster, smarter, more personalised and higher-quality service.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <span style="width:64px;height:3px;background:var(--color-accent)"></span><h3 style="font-family:var(--font-heading);font-weight:400;font-size:54px;line-height:58px;margin:0;color:var(--color-accent-700)">How businesses compete</h3>
+        <p style="font-size:30px;line-height:46px;margin:0;color:var(--color-neutral-800)">Through technology, innovation, productivity and talent.</p>
+      </div>
+    </div>
+  </section>
+
+  <section data-label="Emerging forces" data-screen-label="10" data-speaker-notes="Name them quickly. Students should recognise how many of these already touch their programme." style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:160px 904px 80px 144px;text-wrap:pretty" data-om-slide-id="6dc7956e">
+    <figure class="plate" style="position:absolute;inset:0 0 0 auto;width:760px;margin:0;border:0;outline:0">
+      <img src="assets/training-spray.webp" alt="P10X Academy students preparing a panel for refinishing" style="width:100%;height:100%;object-fit:cover;display:block">
+    </figure>
+    <h2 data-morph="title" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0">The forces reshaping your industry</h2>
+    <div style="display:flex;flex-direction:column;margin-top:48px;flex:1">
+      <div style="flex:1;display:flex;align-items:center;gap:32px;border-top:1px solid var(--color-divider)"><span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">01</span><span style="font-family:var(--font-heading);font-size:44px;line-height:48px">Artificial Intelligence</span></div>
+      <div style="flex:1;display:flex;align-items:center;gap:32px;border-top:1px solid var(--color-divider)"><span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">02</span><span style="font-family:var(--font-heading);font-size:44px;line-height:48px">Automation and robotics</span></div>
+      <div style="flex:1;display:flex;align-items:center;gap:32px;border-top:1px solid var(--color-divider)"><span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">03</span><span style="font-family:var(--font-heading);font-size:44px;line-height:48px">Electric vehicles</span></div>
+      <div style="flex:1;display:flex;align-items:center;gap:32px;border-top:1px solid var(--color-divider)"><span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">04</span><span style="font-family:var(--font-heading);font-size:44px;line-height:48px">Green technology</span></div>
+      <div style="flex:1;display:flex;align-items:center;gap:32px;border-top:1px solid var(--color-divider)"><span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">05</span><span style="font-family:var(--font-heading);font-size:44px;line-height:48px">Digital transformation</span></div>
+      <div style="flex:1;display:flex;align-items:center;gap:32px;border-top:1px solid var(--color-divider)"><span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">06</span><span style="font-family:var(--font-heading);font-size:44px;line-height:48px">Smart manufacturing</span></div>
+      <div style="flex:1;display:flex;align-items:center;gap:32px;border-top:1px solid var(--color-divider)"><span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">07</span><span style="font-family:var(--font-heading);font-size:44px;line-height:48px">Data-driven decisions</span></div>
+      <div style="flex:1;display:flex;align-items:center;gap:32px;border-top:1px solid var(--color-divider)"><span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">08</span><span style="font-family:var(--font-heading);font-size:44px;line-height:48px">Industry 4.0 and 5.0</span></div>
+    </div>
+  </section>
+  <section data-label="Why TVET matters" data-screen-label="11" data-speaker-notes="Push back on the idea that TVET is a second pathway. Six economic contributions." style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:160px 144px 80px;text-wrap:pretty" data-om-slide-id="378517fb">
+    <h2 data-morph="title" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0">TVET is a strategic driver of economic development</h2>
+    <div class="rise" style="display:grid;grid-template-columns:repeat(3,1fr);gap:48px 64px;margin-top:72px;flex:1;grid-auto-rows:1fr">
+      <div style="display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--color-divider);padding-top:28px">
+        <span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">01</span>
+        <h3 style="font-family:var(--font-heading);font-weight:400;font-size:44px;line-height:48px;margin:0">Employment</h3>
+        <p style="font-size:28px;line-height:42px;margin:0;color:var(--color-neutral-800)">Skilled, competent talent for industry.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--color-divider);padding-top:28px">
+        <span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">02</span>
+        <h3 style="font-family:var(--font-heading);font-weight:400;font-size:44px;line-height:48px;margin:0">Productivity</h3>
+        <p style="font-size:28px;line-height:42px;margin:0;color:var(--color-neutral-800)">Better quality, efficiency and performance.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--color-divider);padding-top:28px">
+        <span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">03</span>
+        <h3 style="font-family:var(--font-heading);font-weight:400;font-size:44px;line-height:48px;margin:0">Innovation</h3>
+        <p style="font-size:28px;line-height:42px;margin:0;color:var(--color-neutral-800)">Technical knowledge turned into practical solutions.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--color-divider);padding-top:28px">
+        <span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">04</span>
+        <h3 style="font-family:var(--font-heading);font-weight:400;font-size:44px;line-height:48px;margin:0">Entrepreneurship</h3>
+        <p style="font-size:28px;line-height:42px;margin:0;color:var(--color-neutral-800)">People who build businesses, not only seek jobs.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--color-divider);padding-top:28px">
+        <span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">05</span>
+        <h3 style="font-family:var(--font-heading);font-weight:400;font-size:44px;line-height:48px;margin:0">Social mobility</h3>
+        <p style="font-size:28px;line-height:42px;margin:0;color:var(--color-neutral-800)">Practical pathways to sustainable careers.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--color-divider);padding-top:28px">
+        <span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">06</span>
+        <h3 style="font-family:var(--font-heading);font-weight:400;font-size:44px;line-height:48px;margin:0">Economic growth</h3>
+        <p style="font-size:28px;line-height:42px;margin:0;color:var(--color-neutral-800)">Industries that need skilled, adaptable people.</p>
+      </div>
+    </div>
+  </section>
+
+  <section data-label="Where the gap happens" data-screen-label="12" data-speaker-notes="Neither environment is wrong. The problem is the width of the jump between them." style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:160px 144px 80px;text-wrap:pretty" data-om-slide-id="53ffae19">
+    <h2 data-morph="title" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0">Where does the gap happen?</h2>
+    <div class="rise" style="display:grid;grid-template-columns:1fr 320px 1fr;margin-top:72px;align-items:stretch">
+      <div style="border:1px solid var(--color-neutral-400);padding:40px 44px;display:flex;flex-direction:column;gap:26px">
+        <span style="font-size:24px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">The education environment</span>
+        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;font-size:30px;line-height:44px">
+        <li style="display:flex;gap:16px"><span style="color:var(--color-accent-700)">•</span><span>Curriculum</span></li>
+        <li style="display:flex;gap:16px"><span style="color:var(--color-accent-700)">•</span><span>Knowledge and theory</span></li>
+        <li style="display:flex;gap:16px"><span style="color:var(--color-accent-700)">•</span><span>Assessment</span></li>
+        <li style="display:flex;gap:16px"><span style="color:var(--color-accent-700)">•</span><span>Academic achievement</span></li>
+        <li style="display:flex;gap:16px"><span style="color:var(--color-accent-700)">•</span><span>Qualification</span></li>
+        </ul>
+      </div>
+      <div style="position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:0 28px">
+        <span style="position:absolute;left:28px;top:0;bottom:0;width:1px;border-left:1px dashed var(--color-neutral-400)"></span>
+        <span style="position:absolute;right:28px;top:0;bottom:0;width:1px;border-left:1px dashed var(--color-neutral-400)"></span>
+        <span style="font-size:24px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">The gap</span>
+        <span style="display:flex;align-items:center;width:100%;color:var(--color-accent-700)">
+          <span style="font-size:30px;line-height:30px">←</span>
+          <span style="flex:1;height:1px;background:var(--color-accent)"></span>
+          <span style="font-size:30px;line-height:30px">→</span>
+        </span>
+        <span style="font-size:26px;line-height:38px;color:var(--color-neutral-700);text-align:center">How wide is<br>the jump?</span>
+      </div>
+      <div style="border:1px solid var(--color-neutral-400);padding:40px 44px;display:flex;flex-direction:column;gap:26px">
+        <span style="font-size:24px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">The industry environment</span>
+        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;font-size:30px;line-height:44px">
+        <li style="display:flex;gap:16px"><span style="color:var(--color-accent-700)">•</span><span>Market demand and performance</span></li>
+        <li style="display:flex;gap:16px"><span style="color:var(--color-accent-700)">•</span><span>Productivity and quality</span></li>
+        <li style="display:flex;gap:16px"><span style="color:var(--color-accent-700)">•</span><span>Customer expectations</span></li>
+        <li style="display:flex;gap:16px"><span style="color:var(--color-accent-700)">•</span><span>Cost and speed</span></li>
+        <li style="display:flex;gap:16px"><span style="color:var(--color-accent-700)">•</span><span>Business results</span></li>
+        </ul>
+      </div>
+    </div>
+    <div data-morph="rule" style="margin-top:auto;padding-top:40px;border-top:1px solid var(--color-accent);display:flex;flex-direction:column;gap:14px">
+      <p style="font-size:24px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700);margin:0">The question we should ask</p>
+      <p style="font-size:34px;line-height:50px;margin:0;max-width:1400px">Neither environment is wrong. The challenge is when the transition between them is too wide. How do we bring industry reality closer to the learning environment?</p>
+    </div>
+  </section>
+  <section data-label="03 · Divider" data-screen-label="13" data-speaker-notes="Section three: this is the part the students own." style="transition:opacity 320ms ease;display:flex;flex-direction:column;justify-content:center;background:color-mix(in srgb, var(--color-neutral-900) 85%, black);color:var(--color-bg);font-family:var(--font-body);padding:104px 144px 92px;text-wrap:pretty" data-om-slide-id="6045403d">
+    <div class="rise" style="display:flex;flex-direction:column;align-items:flex-start;gap:52px">
+      <div style="font-family:var(--font-heading);font-weight:400;font-size:300px;line-height:0.9;letter-spacing:-0.015em;color:var(--color-accent);font-feature-settings:'tnum' 1;margin-left:-0.042em">03</div>
+      <h2 data-morph="title" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0">Building your employability</h2>
+    </div>
+  </section>
+
+  <section data-label="Education → employment" data-screen-label="14" data-speaker-notes="Industry exposure is the step that changes everything. Around it, the rest of the journey falls into place." style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:160px 144px 80px;text-wrap:pretty" data-om-slide-id="82a665bb">
+    <h2 data-morph="title" class="rise" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0;animation-delay:0ms">From education to employment</h2>
+    <p class="rise" style="font-size:30px;line-height:46px;margin:36px 0 0;color:var(--color-neutral-700);max-width:60ch;animation-delay:120ms">The traditional journey looks like: study, graduate, apply for a job. A stronger one looks like this.</p>
+    <div style="position:relative;display:grid;grid-template-columns:repeat(7,1fr);column-gap:28px;margin-top:auto;margin-bottom:auto">
+      <div class="grow-x" style="position:absolute;left:0;right:0;top:9px;height:1px;background:var(--color-divider);transform-origin:left center;animation-delay:1200ms;animation-duration:1.6s"></div>
+      <div class="q-pop" style="position:relative;display:flex;flex-direction:column;gap:26px;animation-delay:2300ms"><div style="width:19px;height:19px;border-radius:50%;border:1.5px solid var(--color-neutral-700);background:var(--color-bg)"></div><div style="font-family:var(--font-heading);font-size:38px;line-height:42px;">Knowledge</div><div style="font-size:24px;line-height:36px;color:var(--color-neutral-700)">Understanding the fundamentals</div></div>
+      <div class="q-pop" style="position:relative;display:flex;flex-direction:column;gap:26px;animation-delay:1800ms"><div style="width:19px;height:19px;border-radius:50%;border:1.5px solid var(--color-neutral-700);background:var(--color-bg)"></div><div style="font-family:var(--font-heading);font-size:38px;line-height:42px;">Skills</div><div style="font-size:24px;line-height:36px;color:var(--color-neutral-700)">Learning how to perform</div></div>
+      <div class="q-pop" style="position:relative;display:flex;flex-direction:column;gap:26px;animation-delay:1300ms"><div style="width:19px;height:19px;border-radius:50%;border:1.5px solid var(--color-neutral-700);background:var(--color-bg)"></div><div style="font-family:var(--font-heading);font-size:38px;line-height:42px;">Application</div><div style="font-size:24px;line-height:36px;color:var(--color-neutral-700)">Using knowledge in real situations</div></div>
+      <div class="q-pop" style="position:relative;display:flex;flex-direction:column;gap:26px;animation-delay:200ms"><div style="position:relative;width:19px;height:19px"><div class="lamp" style="position:absolute;left:50%;top:50%;width:150px;height:150px;margin:-75px 0 0 -75px;border-radius:50%;background:radial-gradient(circle, var(--color-accent) 0%, rgba(55,179,190,0) 68%);pointer-events:none"></div><div style="position:absolute;inset:0;border-radius:50%;background:var(--color-accent)"></div></div><div style="font-family:var(--font-heading);font-size:38px;line-height:42px;color:var(--color-accent-700)">Industry exposure</div><div style="font-size:24px;line-height:36px;color:var(--color-neutral-700)">Understanding workplace expectations</div></div>
+      <div class="q-pop" style="position:relative;display:flex;flex-direction:column;gap:26px;animation-delay:1550ms"><div style="width:19px;height:19px;border-radius:50%;border:1.5px solid var(--color-neutral-700);background:var(--color-bg)"></div><div style="font-family:var(--font-heading);font-size:38px;line-height:42px;">Competency</div><div style="font-size:24px;line-height:36px;color:var(--color-neutral-700)">Demonstrating consistent performance</div></div>
+      <div class="q-pop" style="position:relative;display:flex;flex-direction:column;gap:26px;animation-delay:2050ms"><div style="width:19px;height:19px;border-radius:50%;border:1.5px solid var(--color-neutral-700);background:var(--color-bg)"></div><div style="font-family:var(--font-heading);font-size:38px;line-height:42px;">Employment</div><div style="font-size:24px;line-height:36px;color:var(--color-neutral-700)">Entering work with confidence</div></div>
+      <div class="q-pop" style="position:relative;display:flex;flex-direction:column;gap:26px;animation-delay:2550ms"><div style="width:19px;height:19px;border-radius:50%;border:1.5px solid var(--color-neutral-700);background:var(--color-bg)"></div><div style="font-family:var(--font-heading);font-size:38px;line-height:42px;">Career growth</div><div style="font-size:24px;line-height:36px;color:var(--color-neutral-700)">Improving and creating value</div></div>
+    </div>
+  </section>
+  <section data-label="Beyond the certificate" data-screen-label="15" data-speaker-notes="What employers are actually asking behind the interview questions. Eight of them, and only the first is technical." style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:160px 144px 80px;text-wrap:pretty" data-om-slide-id="a4e635af">
+    <h2 data-morph="title" class="rise" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0;animation-delay:0ms">Beyond the certificate</h2>
+    <p class="rise" style="font-size:30px;line-height:46px;margin:36px 0 0;color:var(--color-neutral-700);max-width:64ch;animation-delay:140ms">Employers are not only asking what qualification you hold. They are asking eight other things.</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:56px;margin-top:80px;flex:1;grid-auto-rows:1fr">
+      <div class="card-reveal" style="animation-delay:250ms;display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--color-divider);padding-top:26px"><h3 style="font-family:var(--font-heading);font-weight:400;font-size:42px;line-height:46px;margin:0;">Can you perform?</h3><p style="font-size:26px;line-height:40px;margin:0;color:var(--color-neutral-800)">Execute the technical requirements.</p></div>
+      <div class="card-reveal" style="animation-delay:420ms;display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--color-divider);padding-top:26px"><h3 style="font-family:var(--font-heading);font-weight:400;font-size:42px;line-height:46px;margin:0;">Can you think?</h3><p style="font-size:26px;line-height:40px;margin:0;color:var(--color-neutral-800)">Find the root cause of a problem.</p></div>
+      <div class="card-reveal" style="animation-delay:590ms;display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--color-divider);padding-top:26px"><h3 style="font-family:var(--font-heading);font-weight:400;font-size:42px;line-height:46px;margin:0;">Can you communicate?</h3><p style="font-size:26px;line-height:40px;margin:0;color:var(--color-neutral-800)">With colleagues, customers and management.</p></div>
+      <div class="card-reveal" style="animation-delay:760ms;display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--color-divider);padding-top:26px"><h3 style="font-family:var(--font-heading);font-weight:400;font-size:42px;line-height:46px;margin:0;">Can you adapt?</h3><p style="font-size:26px;line-height:40px;margin:0;color:var(--color-neutral-800)">Learn new tools, technology and processes.</p></div>
+      <div class="card-reveal" style="animation-delay:420ms;display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--color-divider);padding-top:26px"><h3 style="font-family:var(--font-heading);font-weight:400;font-size:42px;line-height:46px;margin:0;">Can you work with others?</h3><p style="font-size:26px;line-height:40px;margin:0;color:var(--color-neutral-800)">Function effectively inside a team.</p></div>
+      <div class="card-reveal" style="animation-delay:590ms;display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--color-divider);padding-top:26px"><h3 style="font-family:var(--font-heading);font-weight:400;font-size:42px;line-height:46px;margin:0;">Can we trust you?</h3><p style="font-size:26px;line-height:40px;margin:0;color:var(--color-neutral-800)">Take responsibility for your work.</p></div>
+      <div class="card-reveal" style="animation-delay:760ms;display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--color-divider);padding-top:26px"><h3 style="font-family:var(--font-heading);font-weight:400;font-size:42px;line-height:46px;margin:0;">Can you keep learning?</h3><p style="font-size:26px;line-height:40px;margin:0;color:var(--color-neutral-800)">Pick up what the job asks for next.</p></div>
+      <div class="card-reveal" style="animation-delay:930ms;display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--color-accent);padding-top:26px"><h3 style="font-family:var(--font-heading);font-weight:400;font-size:42px;line-height:46px;margin:0;color:var(--color-accent-700)">Can you create value?</h3><p style="font-size:26px;line-height:40px;margin:0;color:var(--color-neutral-800)">Contribute positively to the organisation.</p></div>
+    </div>
+  </section>
+  <section data-label="Employability equation" data-screen-label="16" data-speaker-notes="Build the equation one term at a time. Attitude is the one that quietly decides careers, and value is the multiplier." style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:160px 144px 80px;text-wrap:pretty" data-om-slide-id="64b2fc1c">
+    <h2 data-morph="title" class="rise" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0;animation-delay:0ms">What makes a graduate employable?</h2>
+    <div style="display:flex;align-items:flex-start;gap:24px;margin-top:auto">
+      <div class="q-pop" style="display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center;width:100%;animation-delay:300ms">
+        <div style="border:1px solid var(--color-neutral-400);width:100%;height:120px;display:flex;align-items:center;justify-content:center;padding:0 12px"><span style="font-family:var(--font-heading);font-size:36px;line-height:40px">Knowledge</span></div>
+        <span style="font-size:24px;line-height:34px;color:var(--color-neutral-700)">What I understand</span>
+      </div>
+      <span class="rise" style="font-size:40px;color:var(--color-accent-700);align-self:flex-start;margin-top:38px;animation-delay:560ms">+</span>
+      <div class="q-pop" style="display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center;width:100%;animation-delay:720ms">
+        <div style="border:1px solid var(--color-neutral-400);width:100%;height:120px;display:flex;align-items:center;justify-content:center;padding:0 12px"><span style="font-family:var(--font-heading);font-size:36px;line-height:40px">Skills</span></div>
+        <span style="font-size:24px;line-height:34px;color:var(--color-neutral-700)">What I can perform</span>
+      </div>
+      <span class="rise" style="font-size:40px;color:var(--color-accent-700);align-self:flex-start;margin-top:38px;animation-delay:980ms">+</span>
+      <div class="q-pop" style="display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center;width:100%;animation-delay:1140ms">
+        <div style="border:1px solid var(--color-neutral-400);width:100%;height:120px;display:flex;align-items:center;justify-content:center;padding:0 12px"><span style="font-family:var(--font-heading);font-size:36px;line-height:40px">Experience</span></div>
+        <span style="font-size:24px;line-height:34px;color:var(--color-neutral-700)">What I have practised</span>
+      </div>
+      <span class="rise" style="font-size:40px;color:var(--color-accent-700);align-self:flex-start;margin-top:38px;animation-delay:1400ms">+</span>
+      <div class="q-pop" style="display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center;width:100%;animation-delay:1560ms">
+        <div style="border:1px solid var(--color-neutral-400);width:100%;height:120px;display:flex;align-items:center;justify-content:center;padding:0 12px"><span style="font-family:var(--font-heading);font-size:36px;line-height:40px">Attitude</span></div>
+        <span style="font-size:24px;line-height:34px;color:var(--color-neutral-700)">How I approach work</span>
+      </div>
+      <span class="rise" style="font-size:40px;color:var(--color-accent-700);align-self:flex-start;margin-top:38px;animation-delay:1820ms">+</span>
+      <div class="q-pop" style="display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center;width:100%;animation-delay:1980ms">
+        <div style="border:1px solid var(--color-neutral-400);width:100%;height:120px;display:flex;align-items:center;justify-content:center;padding:0 12px"><span style="font-family:var(--font-heading);font-size:36px;line-height:40px">Adaptability</span></div>
+        <span style="font-size:24px;line-height:34px;color:var(--color-neutral-700)">How I respond to change</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:32px;margin-top:auto;margin-bottom:auto;padding-top:56px">
+      <span class="rise" style="font-size:40px;color:var(--color-accent-700);animation-delay:2500ms">=</span>
+      <div class="q-pop" style="border:1px solid var(--color-accent);padding:22px 44px;animation-delay:2650ms"><span style="font-family:var(--font-heading);font-size:46px;line-height:52px;color:var(--color-accent-700)">Employability</span></div>
+      <span class="rise" style="font-size:40px;color:var(--color-accent-700);animation-delay:3100ms">×</span>
+      <div class="q-pop" style="border:1px dashed var(--color-accent);padding:22px 44px;animation-delay:3250ms"><span style="font-family:var(--font-heading);font-size:46px;line-height:52px">Value</span></div>
+      <p class="rise" style="font-size:26px;line-height:40px;margin:0;color:var(--color-neutral-700);max-width:44ch;animation-delay:3700ms">The multiplier: what difference can this person make?</p>
+    </div>
+  </section>
+  <section data-label="T-shaped graduate" data-screen-label="17" data-speaker-notes="Draw the T with your hand. The bar across the top is what lets you work anywhere. The stem down the middle is what makes you an expert. You need both." style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:160px 144px 80px;text-wrap:pretty" data-om-slide-id="adafb9fb">
+    <h2 data-morph="title" class="rise" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0;animation-delay:0ms">The graduate of tomorrow</h2>
+    <div style="display:flex;flex-direction:column;align-items:center;margin-top:auto;margin-bottom:auto;padding-top:36px;width:100%">
+      <div class="grow-x" style="transform-origin:center;width:100%;background:var(--color-accent-100);border:1px solid var(--color-accent);display:flex;align-items:center;gap:48px;padding:26px 44px;animation-delay:200ms;animation-duration:0.8s">
+        <div style="flex:none;width:300px;display:flex;flex-direction:column;gap:6px">
+          <span style="font-family:var(--font-heading);font-size:52px;line-height:56px;color:var(--color-accent-700)">Breadth</span>
+          <span style="font-size:24px;line-height:34px;color:var(--color-neutral-800)">Skills that travel to any job</span>
+        </div>
+        <p style="font-size:30px;line-height:46px;margin:0;flex:1">Communication · Leadership · Digital literacy · Problem-solving · Business awareness · Collaboration · Customer understanding · Creativity</p>
+      </div>
+      <div class="grow-y" style="transform-origin:top center;width:420px;background:var(--color-accent-100);border:1px solid var(--color-accent);border-top:0;padding:28px 36px 32px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;animation-delay:900ms">
+        <span style="font-family:var(--font-heading);font-size:52px;line-height:56px;color:var(--color-accent-700)">Depth</span>
+        <span style="font-size:24px;line-height:34px;color:var(--color-neutral-800)">One discipline, mastered</span>
+        <p style="font-size:26px;line-height:40px;margin:8px 0 0">Engineering · Automotive · IT · Manufacturing · Mechatronics · EV technology · Digital technology</p>
+      </div>
+    </div>
+    <div class="rise" style="padding-top:32px;border-top:1px solid var(--color-divider);animation-delay:1700ms">
+      <p style="font-family:var(--font-heading);font-size:52px;line-height:62px;margin:0;letter-spacing:-0.01em">Deep enough to be an expert. Broad enough to adapt.</p>
+    </div>
+  </section>
+  <section data-label="Learning never ends" data-screen-label="18" data-speaker-notes="The old model was a line with an end. Today's is a loop with no end." style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:160px 144px 80px;text-wrap:pretty" data-om-slide-id="36082850">
+    <h2 data-morph="title" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0">The end of study is not the end of learning</h2>
+    <div class="rise" style="display:grid;grid-template-columns:1fr 470px;column-gap:72px;margin-top:auto;margin-bottom:auto;padding-top:56px;align-items:center">
+      <div style="display:flex;flex-direction:column;gap:52px">
+        <div style="display:flex;flex-direction:column;gap:22px">
+          <span style="font-size:24px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">The traditional model: a line</span>
+          <div style="position:relative;display:grid;grid-template-columns:repeat(4,1fr);padding-top:14px">
+            <div style="position:absolute;left:0;right:60px;top:20px;height:1px;background:var(--color-neutral-400)"></div>
+            <div class="trav" style="position:absolute;top:14px;left:0;width:13px;height:13px;border-radius:50%;background:#a8322e;box-shadow:0 0 0 7px rgba(168,50,46,0.16)"></div>
+            <span class="stuck-q" style="position:absolute;right:0;top:0;font-family:var(--font-heading);font-size:34px;line-height:38px;color:#a8322e;white-space:nowrap">? now what</span>
+            <div style="position:relative;display:flex;flex-direction:column;gap:16px"><div style="width:13px;height:13px;border-radius:50%;border:1.5px solid var(--color-neutral-600);background:var(--color-bg)"></div><span style="font-family:var(--font-heading);font-size:32px;color:var(--color-neutral-700)">Study</span></div>
+            <div style="position:relative;display:flex;flex-direction:column;gap:16px"><div style="width:13px;height:13px;border-radius:50%;border:1.5px solid var(--color-neutral-600);background:var(--color-bg)"></div><span style="font-family:var(--font-heading);font-size:32px;color:var(--color-neutral-700)">Graduate</span></div>
+            <div style="position:relative;display:flex;flex-direction:column;gap:16px"><div style="width:13px;height:13px;border-radius:50%;border:1.5px solid var(--color-neutral-600);background:var(--color-bg)"></div><span style="font-family:var(--font-heading);font-size:32px;color:var(--color-neutral-700)">Get a job</span></div>
+            <div style="position:relative;display:flex;flex-direction:column;gap:16px"><div style="width:13px;height:13px;border-radius:50%;border:1.5px solid var(--color-neutral-600);background:var(--color-bg)"></div><span style="font-family:var(--font-heading);font-size:32px;color:var(--color-neutral-700)">Work</span></div>
+          </div>
+        </div>
+        <p style="font-size:30px;line-height:46px;margin:0;color:var(--color-neutral-800);max-width:52ch">Technology changes. Processes change. Customer expectations change. Business models change. So the question is not only “what qualification do I have?” but “what am I capable of learning next?”</p>
+      </div>
+      <figure style="margin:0;display:flex;flex-direction:column;gap:20px;align-items:center">
+        <svg viewBox="0 0 500 500" style="width:430px;height:430px;overflow:visible" role="img" aria-label="A continuous loop: learn, apply, adapt, relearn, grow">
+          <circle cx="250" cy="250" r="165" style="fill:none;stroke:var(--color-divider);stroke-width:1"></circle>
+          <circle class="loop-trace" cx="250" cy="250" r="165" transform="rotate(-90 250 250)" style="fill:none;stroke:var(--color-accent);stroke-width:4;stroke-linecap:round;stroke-dasharray:170 867"></circle>
+      <circle cx="250.0" cy="85.0" r="11" style="fill:var(--color-accent);stroke:var(--color-accent-700);stroke-width:1.5"></circle>
+      <text x="250.0" y="53.0" text-anchor="middle" style="font-family:var(--font-heading);font-size:34px;fill:var(--color-text)">Learn</text>
+      <circle cx="406.9" cy="199.0" r="11" style="fill:var(--color-bg);stroke:var(--color-accent-700);stroke-width:1.5"></circle>
+      <text x="446.9" y="196.0" text-anchor="start" style="font-family:var(--font-heading);font-size:34px;fill:var(--color-text)">Apply</text>
+      <circle cx="347.0" cy="383.5" r="11" style="fill:var(--color-bg);stroke:var(--color-accent-700);stroke-width:1.5"></circle>
+      <text x="371.7" y="427.5" text-anchor="start" style="font-family:var(--font-heading);font-size:34px;fill:var(--color-text)">Adapt</text>
+      <circle cx="153.0" cy="383.5" r="11" style="fill:var(--color-bg);stroke:var(--color-accent-700);stroke-width:1.5"></circle>
+      <text x="128.3" y="427.5" text-anchor="end" style="font-family:var(--font-heading);font-size:34px;fill:var(--color-text)">Relearn</text>
+      <circle cx="93.1" cy="199.0" r="11" style="fill:var(--color-bg);stroke:var(--color-accent-700);stroke-width:1.5"></circle>
+      <text x="53.1" y="196.0" text-anchor="end" style="font-family:var(--font-heading);font-size:34px;fill:var(--color-text)">Grow</text>
+      <path d="M -9 -7 L 0 0 L -9 7" transform="translate(347.0 116.5) rotate(36.0)" style="fill:none;stroke:var(--color-accent-700);stroke-width:2"></path>
+      <path d="M -9 -7 L 0 0 L -9 7" transform="translate(406.9 301.0) rotate(108.0)" style="fill:none;stroke:var(--color-accent-700);stroke-width:2"></path>
+      <path d="M -9 -7 L 0 0 L -9 7" transform="translate(250.0 415.0) rotate(180.0)" style="fill:none;stroke:var(--color-accent-700);stroke-width:2"></path>
+      <path d="M -9 -7 L 0 0 L -9 7" transform="translate(93.1 301.0) rotate(252.0)" style="fill:none;stroke:var(--color-accent-700);stroke-width:2"></path>
+      <path d="M -9 -7 L 0 0 L -9 7" transform="translate(153.0 116.5) rotate(324.0)" style="fill:none;stroke:var(--color-accent-700);stroke-width:2"></path>
+        </svg>
+        <figcaption style="font-size:24px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">Today's reality: a loop</figcaption>
+      </figure>
+    </div>
+  </section>
+  <section data-label="Evidence, not credentials" data-screen-label="19" data-speaker-notes="Ask the room: what could you show an employer tomorrow that proves what you can do?" style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:160px 144px 80px;text-wrap:pretty" data-om-slide-id="b45c3928">
+    <h2 data-morph="title" class="rise" style="animation-delay:0ms;" font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0"="">Don't just collect certificates</h2>
+    <div class="rise" style="display:grid;grid-template-columns:repeat(5,1fr);gap:36px;margin-top:72px;align-items:end">
+      <div class="rise-up" style="animation-delay:300ms;display:flex;flex-direction:column;justify-content:flex-end;gap:18px">
+        <div style="border:1px solid var(--color-neutral-400);border-bottom:2px solid var(--color-neutral-600);height:200px;display:flex;flex-direction:column;justify-content:flex-end;gap:12px;padding:24px 26px">
+          <span style="font-family:var(--font-heading);font-size:38px;line-height:42px;">Certificate</span>
+          <span style="font-size:26px;line-height:38px;color:var(--color-neutral-800)">“I studied this.”</span>
+        </div>
+      </div>
+      <div class="rise-up" style="animation-delay:640ms;display:flex;flex-direction:column;justify-content:flex-end;gap:18px">
+        <div style="border:1px solid var(--color-neutral-400);border-bottom:2px solid var(--color-neutral-600);height:250px;display:flex;flex-direction:column;justify-content:flex-end;gap:12px;padding:24px 26px">
+          <span style="font-family:var(--font-heading);font-size:38px;line-height:42px;">Portfolio</span>
+          <span style="font-size:26px;line-height:38px;color:var(--color-neutral-800)">“I built this.”</span>
+        </div>
+      </div>
+      <div class="rise-up" style="animation-delay:980ms;display:flex;flex-direction:column;justify-content:flex-end;gap:18px">
+        <div style="border:1px solid var(--color-neutral-400);border-bottom:2px solid var(--color-neutral-600);height:300px;display:flex;flex-direction:column;justify-content:flex-end;gap:12px;padding:24px 26px">
+          <span style="font-family:var(--font-heading);font-size:38px;line-height:42px;">Project</span>
+          <span style="font-size:26px;line-height:38px;color:var(--color-neutral-800)">“I solved this.”</span>
+        </div>
+      </div>
+      <div class="rise-up" style="animation-delay:1320ms;display:flex;flex-direction:column;justify-content:flex-end;gap:18px">
+        <div style="border:1px solid var(--color-neutral-400);border-bottom:2px solid var(--color-neutral-600);height:350px;display:flex;flex-direction:column;justify-content:flex-end;gap:12px;padding:24px 26px">
+          <span style="font-family:var(--font-heading);font-size:38px;line-height:42px;">Experience</span>
+          <span style="font-size:26px;line-height:38px;color:var(--color-neutral-800)">“I handled this.”</span>
+        </div>
+      </div>
+      <div class="rise-up" style="animation-delay:1660ms;display:flex;flex-direction:column;justify-content:flex-end;gap:18px">
+        <div class="rung-glow" style="animation-delay:2000ms;border:1px solid var(--color-accent);border-bottom:2px solid var(--color-accent);height:400px;display:flex;flex-direction:column;justify-content:flex-end;gap:12px;padding:24px 26px">
+          <span style="font-family:var(--font-heading);font-size:38px;line-height:42px;color:var(--color-accent-700)">Result</span>
+          <span style="font-size:26px;line-height:38px;color:var(--color-neutral-800)">“I created this value.”</span>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:28px;line-height:44px;margin:48px 0 0;color:var(--color-neutral-800);max-width:110ch">Evidence can be technical projects, research, industry assignments, competitions, innovation, internship achievements, professional certifications, entrepreneurship or community work.</p>
+    <div data-morph="rule" style="margin-top:auto;padding-top:36px;border-top:1px solid var(--color-accent)">
+      <p style="font-family:var(--font-heading);font-size:52px;line-height:62px;margin:0;letter-spacing:-0.01em">Build evidence, not just credentials.</p>
+    </div>
+  </section>
+  <section data-label="04 · Divider" data-screen-label="20" data-speaker-notes="Section four: nobody builds a career alone — but everyone has a job to do." style="transition:opacity 320ms ease;display:flex;flex-direction:column;justify-content:center;background:color-mix(in srgb, var(--color-neutral-900) 85%, black);color:var(--color-bg);font-family:var(--font-body);padding:104px 144px 92px;text-wrap:pretty" data-om-slide-id="2b13270b">
+    <div class="rise" style="display:flex;flex-direction:column;align-items:flex-start;gap:52px">
+      <div style="font-family:var(--font-heading);font-weight:400;font-size:300px;line-height:0.9;letter-spacing:-0.015em;color:var(--color-accent);font-feature-settings:'tnum' 1;margin-left:-0.042em">04</div>
+      <h2 data-morph="title" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0">The ecosystem around you</h2>
+    </div>
+  </section>
+
+  <section data-label="Universities" data-screen-label="21" data-speaker-notes="Not theory versus practice — both, connected meaningfully." style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:160px 144px 80px;text-wrap:pretty" data-om-slide-id="03f25d79">
+    <h2 data-morph="title" class="rise" style="animation-delay:0ms;font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0">From knowledge provider to talent ecosystem</h2>
+    <p class="rise" style="animation-delay:140ms;font-size:30px;line-height:46px;margin:36px 0 0;color:var(--color-neutral-700);max-width:70ch">Universities build knowledge, research capability, critical thinking and professional discipline. Industry integration makes that learning land.</p>
+    <div class="rise" style="display:grid;grid-template-columns:repeat(3,1fr);gap:48px 72px;margin-top:80px;flex:1;grid-auto-rows:1fr">
+      <div class="card-reveal" style="animation-delay:320ms;display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--color-accent);padding-top:26px"><h3 style="font-family:var(--font-heading);font-weight:400;font-size:44px;line-height:48px;margin:0;color:var(--color-accent-700)">Industry-led projects</h3><p style="font-size:26px;line-height:40px;margin:0;color:var(--color-neutral-800)">Students solve real problems.</p></div>
+      <div class="card-reveal" style="animation-delay:510ms;display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--color-accent);padding-top:26px"><h3 style="font-family:var(--font-heading);font-weight:400;font-size:44px;line-height:48px;margin:0;color:var(--color-accent-700)">Industry mentors</h3><p style="font-size:26px;line-height:40px;margin:0;color:var(--color-neutral-800)">Students learn from practitioners.</p></div>
+      <div class="card-reveal" style="animation-delay:700ms;display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--color-accent);padding-top:26px"><h3 style="font-family:var(--font-heading);font-weight:400;font-size:44px;line-height:48px;margin:0;color:var(--color-accent-700)">Work-based learning</h3><p style="font-size:26px;line-height:40px;margin:0;color:var(--color-neutral-800)">Students experience actual workplaces.</p></div>
+      <div class="card-reveal" style="animation-delay:510ms;display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--color-accent);padding-top:26px"><h3 style="font-family:var(--font-heading);font-weight:400;font-size:44px;line-height:48px;margin:0;color:var(--color-accent-700)">Industry certification</h3><p style="font-size:26px;line-height:40px;margin:0;color:var(--color-neutral-800)">Recognised technical capability.</p></div>
+      <div class="card-reveal" style="animation-delay:700ms;display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--color-accent);padding-top:26px"><h3 style="font-family:var(--font-heading);font-weight:400;font-size:44px;line-height:48px;margin:0;color:var(--color-accent-700)">Industry research</h3><p style="font-size:26px;line-height:40px;margin:0;color:var(--color-neutral-800)">Academic knowledge on real market challenges.</p></div>
+      <div class="card-reveal" style="animation-delay:890ms;display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--color-accent);padding-top:26px"><h3 style="font-family:var(--font-heading);font-weight:400;font-size:44px;line-height:48px;margin:0;color:var(--color-accent-700)">Employment pathways</h3><p style="font-size:26px;line-height:40px;margin:0;color:var(--color-neutral-800)">Students connected to opportunities before graduation.</p></div>
+    </div>
+  </section>
+
+  <section data-label="Industry" data-screen-label="22" data-speaker-notes="Industry says graduates are not industry-ready. The fair reply: how are we participating in preparing them? Five ways." style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:160px 144px 80px;text-wrap:pretty" data-om-slide-id="ac42de2f">
+    <h2 data-morph="title" class="rise" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0;animation-delay:0ms">Industry must also come closer to education</h2>
+    <p class="rise" style="font-size:30px;line-height:46px;margin:32px 0 0;color:var(--color-neutral-700);max-width:86ch;animation-delay:160ms">Industry often says graduates are not industry-ready. The fair question back is: how are we helping to prepare them?</p>
+    <div style="display:flex;flex-direction:column;margin-top:48px;flex:1">
+      <div class="card-reveal" style="animation-delay:420ms;flex:1;display:flex;align-items:center;gap:56px;border-top:1px solid var(--color-accent);padding:22px 0">
+        <span style="flex:none;width:400px;font-family:var(--font-heading);font-size:56px;line-height:60px;color:var(--color-accent-700)">Co-design</span>
+        <span style="font-size:32px;line-height:46px">Help universities understand what competency industry actually needs today.</span>
+      </div>
+      <div class="card-reveal" style="animation-delay:640ms;flex:1;display:flex;align-items:center;gap:56px;border-top:1px solid var(--color-accent);padding:22px 0">
+        <span style="flex:none;width:400px;font-family:var(--font-heading);font-size:56px;line-height:60px;color:var(--color-accent-700)">Co-train</span>
+        <span style="font-size:32px;line-height:46px">Share technology, equipment, processes and practical knowledge.</span>
+      </div>
+      <div class="card-reveal" style="animation-delay:860ms;flex:1;display:flex;align-items:center;gap:56px;border-top:1px solid var(--color-accent);padding:22px 0">
+        <span style="flex:none;width:400px;font-family:var(--font-heading);font-size:56px;line-height:60px;color:var(--color-accent-700)">Co-assess</span>
+        <span style="font-size:32px;line-height:46px">Validate whether students can perform to industry expectations.</span>
+      </div>
+      <div class="card-reveal" style="animation-delay:1080ms;flex:1;display:flex;align-items:center;gap:56px;border-top:1px solid var(--color-accent);padding:22px 0">
+        <span style="flex:none;width:400px;font-family:var(--font-heading);font-size:56px;line-height:60px;color:var(--color-accent-700)">Co-innovate</span>
+        <span style="font-size:32px;line-height:46px">Work with universities on real industry problems.</span>
+      </div>
+      <div class="card-reveal" style="animation-delay:1300ms;flex:1;display:flex;align-items:center;gap:56px;border-top:1px solid var(--color-accent);padding:22px 0">
+        <span style="flex:none;width:400px;font-family:var(--font-heading);font-size:56px;line-height:60px;color:var(--color-accent-700)">Co-create</span>
+        <span style="font-size:32px;line-height:46px">Build internships, employment pathways and entrepreneurship.</span>
+      </div>
+    </div>
+  </section>
+  <section data-label="Lecturers" data-screen-label="23" data-speaker-notes="The lecturer is the bridge between the classroom and the industry. Five spans hold that bridge up." style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:160px 144px 80px;text-wrap:pretty" data-om-slide-id="2ad7eb21">
+    <h2 data-morph="title" class="rise" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0;animation-delay:0ms">Lecturers as bridge builders</h2>
+    <div style="display:flex;align-items:flex-start;gap:32px;margin-top:auto;margin-bottom:auto;padding-top:40px">
+      <div class="q-pop" style="flex:none;width:250px;height:170px;border:1px solid var(--color-neutral-400);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;animation-delay:300ms">
+        <span style="font-family:var(--font-heading);font-size:44px;line-height:48px">Classroom</span>
+        <span style="font-size:24px;line-height:34px;color:var(--color-neutral-700)">knowledge and theory</span>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column">
+        <div class="grow-x" style="height:4px;background:var(--color-accent);transform-origin:left center;animation-delay:800ms;animation-duration:0.9s"></div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:28px">
+          <div class="q-pop" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;animation-delay:1400ms">
+            <span style="width:1px;height:40px;background:var(--color-accent)"></span>
+            <span style="font-family:var(--font-heading);font-size:36px;line-height:40px;color:var(--color-accent-700)">Educator</span>
+            <span style="font-size:24px;line-height:36px;color:var(--color-neutral-800)">Gives the knowledge and the academic foundation.</span>
+          </div>
+          <div class="q-pop" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;animation-delay:1640ms">
+            <span style="width:1px;height:40px;background:var(--color-accent)"></span>
+            <span style="font-family:var(--font-heading);font-size:36px;line-height:40px;color:var(--color-accent-700)">Facilitator</span>
+            <span style="font-size:24px;line-height:36px;color:var(--color-neutral-800)">Creates chances to learn by doing.</span>
+          </div>
+          <div class="q-pop" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;animation-delay:1880ms">
+            <span style="width:1px;height:40px;background:var(--color-accent)"></span>
+            <span style="font-family:var(--font-heading);font-size:36px;line-height:40px;color:var(--color-accent-700)">Mentor</span>
+            <span style="font-size:24px;line-height:36px;color:var(--color-neutral-800)">Helps you see your own strengths.</span>
+          </div>
+          <div class="q-pop" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;animation-delay:2120ms">
+            <span style="width:1px;height:40px;background:var(--color-accent)"></span>
+            <span style="font-family:var(--font-heading);font-size:36px;line-height:40px;color:var(--color-accent-700)">Industry connector</span>
+            <span style="font-size:24px;line-height:36px;color:var(--color-neutral-800)">Brings practitioners and projects to you.</span>
+          </div>
+          <div class="q-pop" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;animation-delay:2360ms">
+            <span style="width:1px;height:40px;background:var(--color-accent)"></span>
+            <span style="font-family:var(--font-heading);font-size:36px;line-height:40px;color:var(--color-accent-700)">Talent developer</span>
+            <span style="font-size:24px;line-height:36px;color:var(--color-neutral-800)">Prepares you to succeed, not only to graduate.</span>
+          </div>
+        </div>
+      </div>
+      <div class="q-pop" style="flex:none;width:250px;height:170px;border:1px solid var(--color-neutral-400);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;animation-delay:560ms">
+        <span style="font-family:var(--font-heading);font-size:44px;line-height:48px">Industry</span>
+        <span style="font-size:24px;line-height:34px;color:var(--color-neutral-700)">products and customers</span>
+      </div>
+    </div>
+    <div class="rise" style="padding-top:32px;border-top:1px solid var(--color-divider);animation-delay:2700ms">
+      <p style="font-family:var(--font-heading);font-size:46px;line-height:58px;margin:0;letter-spacing:-0.01em;max-width:1500px">Students may forget some of the content we teach, but they remember the people who opened their eyes to what they could become.</p>
+    </div>
+  </section>
+  <section data-label="Students" data-screen-label="24" data-speaker-notes="The core slide for this audience. Don't wait for final semester. One question to ask yourself at every step, starting in year one." style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:160px 144px 80px;text-wrap:pretty" data-om-slide-id="48c645be">
+    <h2 data-morph="title" class="rise" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0;animation-delay:0ms">Employability starts before graduation</h2>
+    <p class="rise" style="font-size:30px;line-height:46px;margin:32px 0 0;color:var(--color-neutral-700);max-width:88ch;animation-delay:150ms">Don't wait until final semester to ask “where can I find a job?”. Climb these six steps from year one, and ask yourself the question on each one.</p>
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:28px;margin-top:auto;align-items:end">
+      <div class="rise-up" style="animation-delay:300ms;display:flex;flex-direction:column;justify-content:flex-end">
+        <div style="border:1px solid var(--color-neutral-400);border-bottom:3px solid var(--color-neutral-600);height:230px;display:flex;flex-direction:column;justify-content:flex-end;gap:14px;padding:24px 26px">
+          <span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">01</span>
+          <span style="font-family:var(--font-heading);font-size:46px;line-height:50px;color:var(--color-accent-700)">Learn</span>
+          <span style="font-size:26px;line-height:38px">What skills am I building?</span>
+        </div>
+      </div>
+      <div class="rise-up" style="animation-delay:600ms;display:flex;flex-direction:column;justify-content:flex-end">
+        <div style="border:1px solid var(--color-neutral-400);border-bottom:3px solid var(--color-neutral-600);height:276px;display:flex;flex-direction:column;justify-content:flex-end;gap:14px;padding:24px 26px">
+          <span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">02</span>
+          <span style="font-family:var(--font-heading);font-size:46px;line-height:50px;color:var(--color-accent-700)">Practise</span>
+          <span style="font-size:26px;line-height:38px">What problems can I solve?</span>
+        </div>
+      </div>
+      <div class="rise-up" style="animation-delay:900ms;display:flex;flex-direction:column;justify-content:flex-end">
+        <div style="border:1px solid var(--color-neutral-400);border-bottom:3px solid var(--color-neutral-600);height:322px;display:flex;flex-direction:column;justify-content:flex-end;gap:14px;padding:24px 26px">
+          <span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">03</span>
+          <span style="font-family:var(--font-heading);font-size:46px;line-height:50px;color:var(--color-accent-700)">Experience</span>
+          <span style="font-size:26px;line-height:38px">What experience am I gaining?</span>
+        </div>
+      </div>
+      <div class="rise-up" style="animation-delay:1200ms;display:flex;flex-direction:column;justify-content:flex-end">
+        <div style="border:1px solid var(--color-neutral-400);border-bottom:3px solid var(--color-neutral-600);height:368px;display:flex;flex-direction:column;justify-content:flex-end;gap:14px;padding:24px 26px">
+          <span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">04</span>
+          <span style="font-family:var(--font-heading);font-size:46px;line-height:50px;color:var(--color-accent-700)">Connect</span>
+          <span style="font-size:26px;line-height:38px">Who should I learn from?</span>
+        </div>
+      </div>
+      <div class="rise-up" style="animation-delay:1500ms;display:flex;flex-direction:column;justify-content:flex-end">
+        <div style="border:1px solid var(--color-neutral-400);border-bottom:3px solid var(--color-neutral-600);height:414px;display:flex;flex-direction:column;justify-content:flex-end;gap:14px;padding:24px 26px">
+          <span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">05</span>
+          <span style="font-family:var(--font-heading);font-size:46px;line-height:50px;color:var(--color-accent-700)">Showcase</span>
+          <span style="font-size:26px;line-height:38px">What evidence can I show?</span>
+        </div>
+      </div>
+      <div class="rise-up" style="animation-delay:1800ms;display:flex;flex-direction:column;justify-content:flex-end">
+        <div style="border:1px solid var(--color-accent);border-bottom:3px solid var(--color-accent);height:460px;display:flex;flex-direction:column;justify-content:flex-end;gap:14px;padding:24px 26px">
+          <span style="font-size:24px;color:var(--color-accent-700);font-feature-settings:'tnum' 1">06</span>
+          <span style="font-family:var(--font-heading);font-size:46px;line-height:50px;color:var(--color-accent-700)">Contribute</span>
+          <span style="font-size:26px;line-height:38px">What value can I bring?</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section data-label="05 · Divider" data-screen-label="25" data-speaker-notes="Section five: what this looks like in practice at P10X Academy." style="transition:opacity 320ms ease;display:flex;flex-direction:column;justify-content:center;background:color-mix(in srgb, var(--color-neutral-900) 85%, black);color:var(--color-bg);font-family:var(--font-body);padding:104px 144px 92px;text-wrap:pretty" data-om-slide-id="451eac12">
+    <div class="rise" style="display:flex;flex-direction:column;align-items:flex-start;gap:52px">
+      <div style="font-family:var(--font-heading);font-weight:400;font-size:300px;line-height:0.9;letter-spacing:-0.015em;color:var(--color-accent);font-feature-settings:'tnum' 1;margin-left:-0.042em">05</div>
+      <h2 data-morph="title" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0">P10X Academy and what you do next</h2>
+    </div>
+  </section>
+
+  <section data-label="P10X model" data-screen-label="26" data-speaker-notes="Walk the checklist. Each stage is something the student can point at and say: I have done this." style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:160px 144px 80px;text-wrap:pretty" data-om-slide-id="266d1a54">
+    <h2 data-morph="title" class="rise" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0;animation-delay:0ms">Connecting TVET to industry</h2>
+    <p class="rise" style="font-size:30px;line-height:46px;margin:32px 0 0;color:var(--color-neutral-700);max-width:88ch;animation-delay:150ms">At P10X Academy the question is not only “what should we teach?” but “what does industry need, and how do we prepare talent to meet it?”</p>
+    <div style="display:flex;flex-direction:column;margin-top:44px;flex:1">
+      <div class="card-reveal" style="animation-delay:400ms;flex:1;display:flex;align-items:center;gap:36px;border-top:1px solid var(--color-divider);padding:16px 0">
+        <span style="flex:none;width:52px;height:52px;border:1px solid var(--color-accent);display:flex;align-items:center;justify-content:center"><span class="q-pop" style="font-size:32px;line-height:32px;color:var(--color-accent-700);animation-delay:640ms">✓</span></span>
+        <span style="flex:none;width:420px;font-family:var(--font-heading);font-size:42px;line-height:46px;color:var(--color-accent-700)">TVET foundation</span>
+        <span style="font-size:28px;line-height:42px;color:var(--color-neutral-800)">Knowledge and recognised competency</span>
+      </div>
+      <div class="card-reveal" style="animation-delay:720ms;flex:1;display:flex;align-items:center;gap:36px;border-top:1px solid var(--color-divider);padding:16px 0">
+        <span style="flex:none;width:52px;height:52px;border:1px solid var(--color-accent);display:flex;align-items:center;justify-content:center"><span class="q-pop" style="font-size:32px;line-height:32px;color:var(--color-accent-700);animation-delay:960ms">✓</span></span>
+        <span style="flex:none;width:420px;font-family:var(--font-heading);font-size:42px;line-height:46px;color:var(--color-accent-700)">Practical learning</span>
+        <span style="font-size:28px;line-height:42px;color:var(--color-neutral-800)">Hands-on training and application</span>
+      </div>
+      <div class="card-reveal" style="animation-delay:1040ms;flex:1;display:flex;align-items:center;gap:36px;border-top:1px solid var(--color-divider);padding:16px 0">
+        <span style="flex:none;width:52px;height:52px;border:1px solid var(--color-accent);display:flex;align-items:center;justify-content:center"><span class="q-pop" style="font-size:32px;line-height:32px;color:var(--color-accent-700);animation-delay:1280ms">✓</span></span>
+        <span style="flex:none;width:420px;font-family:var(--font-heading);font-size:42px;line-height:46px;color:var(--color-accent-700)">Industry exposure</span>
+        <span style="font-size:28px;line-height:42px;color:var(--color-neutral-800)">Real technology, products and standards</span>
+      </div>
+      <div class="card-reveal" style="animation-delay:1360ms;flex:1;display:flex;align-items:center;gap:36px;border-top:1px solid var(--color-divider);padding:16px 0">
+        <span style="flex:none;width:52px;height:52px;border:1px solid var(--color-accent);display:flex;align-items:center;justify-content:center"><span class="q-pop" style="font-size:32px;line-height:32px;color:var(--color-accent-700);animation-delay:1600ms">✓</span></span>
+        <span style="flex:none;width:420px;font-family:var(--font-heading);font-size:42px;line-height:46px;color:var(--color-accent-700)">Competency</span>
+        <span style="font-size:28px;line-height:42px;color:var(--color-neutral-800)">You demonstrate what you can perform</span>
+      </div>
+      <div class="card-reveal" style="animation-delay:1680ms;flex:1;display:flex;align-items:center;gap:36px;border-top:1px solid var(--color-divider);padding:16px 0">
+        <span style="flex:none;width:52px;height:52px;border:1px solid var(--color-accent);display:flex;align-items:center;justify-content:center"><span class="q-pop" style="font-size:32px;line-height:32px;color:var(--color-accent-700);animation-delay:1920ms">✓</span></span>
+        <span style="flex:none;width:420px;font-family:var(--font-heading);font-size:42px;line-height:46px;color:var(--color-accent-700)">Talent development</span>
+        <span style="font-size:28px;line-height:42px;color:var(--color-neutral-800)">Technical and professional capability</span>
+      </div>
+      <div class="card-reveal" style="animation-delay:2000ms;flex:1;display:flex;align-items:center;gap:36px;border-top:1px solid var(--color-divider);padding:16px 0">
+        <span style="flex:none;width:52px;height:52px;border:1px solid var(--color-accent);display:flex;align-items:center;justify-content:center"><span class="q-pop" style="font-size:32px;line-height:32px;color:var(--color-accent-700);animation-delay:2240ms">✓</span></span>
+        <span style="flex:none;width:420px;font-family:var(--font-heading);font-size:42px;line-height:46px;color:var(--color-accent-700)">Employment</span>
+        <span style="font-size:28px;line-height:42px;color:var(--color-neutral-800)">Connection with industry opportunities</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:28px;padding-top:28px">
+      <span style="font-size:24px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700);white-space:nowrap">Certificate</span>
+      <span style="flex:1;height:6px;background:var(--color-accent-200);position:relative;overflow:hidden"><span class="grow-x" style="position:absolute;inset:0;background:var(--color-accent);transform-origin:left center;animation-delay:400ms;animation-duration:2.6s"></span></span>
+      <span style="font-size:24px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700);white-space:nowrap">Career</span>
+    </div>
+  </section>
+  <section data-label="Inside the academy" data-screen-label="27" data-speaker-notes="Coach-led, on real vehicles, to industry standards — this is what practical learning looks like day to day." style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:160px 144px 80px 1104px;text-wrap:pretty" data-om-slide-id="1f97bfe4">
+    <figure class="plate" style="position:absolute;inset:0 auto 0 0;width:960px;margin:0;border:0;outline:0">
+      <img src="assets/coach-briefing.webp" alt="A P10X coach briefing students around a vehicle in the academy bay" style="width:100%;height:100%;object-fit:cover;display:block">
+    </figure>
+    <h2 class="rise" data-morph="title" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0">You learn on the shop floor</h2>
+    <ul class="rise" style="list-style:none;margin:72px 0 0;padding:0;display:flex;flex-direction:column;gap:28px;font-size:30px;line-height:46px">
+      <li style="display:flex;gap:16px"><span style="color:var(--color-accent-700)">•</span><span>Coaches from the trade, not only from the classroom</span></li>
+      <li style="display:flex;gap:16px"><span style="color:var(--color-accent-700)">•</span><span>Real vehicles, real products, real customer standards</span></li>
+      <li style="display:flex;gap:16px"><span style="color:var(--color-accent-700)">•</span><span>Assessment on what you can perform, not only what you can recall</span></li>
+      <li style="display:flex;gap:16px"><span style="color:var(--color-accent-700)">•</span><span>Work you can photograph, explain and show an employer</span></li>
+    </ul>
+    <p data-morph="rule" style="margin-top:auto;padding-top:36px;border-top:1px solid var(--color-accent);font-size:30px;line-height:46px;max-width:60ch">Every job on the floor is somebody's car. That is what makes the standard real.</p>
+  </section>
+
+  <section data-label="Where you train" data-screen-label="28" data-speaker-notes="Training happens at Sunway, on a live outlet floor with paying customers." style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:160px 144px 80px;text-wrap:pretty" data-om-slide-id="e6769aad">
+    <h2 data-morph="title" class="rise" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0;animation-delay:0ms">Where you train: Sunway</h2>
+    <p class="rise" style="font-size:30px;line-height:46px;margin:32px 0 0;color:var(--color-neutral-700);max-width:84ch;animation-delay:150ms">Not a simulated workshop. You train on a live outlet floor, with real vehicles and paying customers.</p>
+    <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:44px;margin-top:52px">
+      <figure class="card-reveal" style="margin:0;min-height:0;display:flex;flex-direction:column;gap:16px;animation-delay:320ms">
+        <div class="plate" style="height:470px;overflow:hidden;border-width:10px"><img src="assets/branch-3m-sunway.jpg" alt="The 3M Pro Shop outlet in Sunway, managed by P10X" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <figcaption style="font-family:var(--font-heading);font-size:36px;line-height:42px">3M Pro Shop, Sunway</figcaption>
+      </figure>
+      <figure class="card-reveal" style="margin:0;min-height:0;display:flex;flex-direction:column;gap:16px;animation-delay:560ms">
+        <div class="plate" style="height:470px;overflow:hidden;border-width:10px"><img src="assets/training-tint.webp" alt="A P10X Academy student cutting tint film on the training floor" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <figcaption style="font-family:var(--font-heading);font-size:36px;line-height:42px">On the floor, on real work</figcaption>
+      </figure>
+    </div>
+  </section>
+  <section data-label="Industry partners" data-screen-label="29" data-speaker-notes="These are the brands whose technology, standards and people our students work with, and who hire from us." style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:color-mix(in srgb, var(--color-neutral-900) 85%, black);color:var(--color-bg);font-family:var(--font-body);padding:160px 144px 80px;text-wrap:pretty">
+    <h2 data-morph="title" class="rise" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0;animation-delay:0ms">The industry you will meet</h2>
+    <p class="rise" style="font-size:30px;line-height:46px;margin:32px 0 0;color:var(--color-neutral-400);max-width:70ch;animation-delay:150ms">Brands that co-design, co-train, co-assess and hire.</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:44px;margin-top:56px;flex:1">
+      <div class="card-reveal" style="animation-delay:320ms;border:1px solid color-mix(in srgb, var(--color-bg) 24%, transparent);display:flex;align-items:center;justify-content:center;padding:40px"><img src="assets/partner-servauto.png" alt="ServAuto" style="max-width:100%;max-height:100%;object-fit:contain;display:block"></div>
+      <div class="card-reveal" style="animation-delay:480ms;border:1px solid color-mix(in srgb, var(--color-bg) 24%, transparent);display:flex;align-items:center;justify-content:center;padding:40px"><img src="assets/partner-starx.png" alt="stARX" style="max-width:100%;max-height:100%;object-fit:contain;display:block"></div>
+      <div class="card-reveal" style="animation-delay:640ms;border:1px solid color-mix(in srgb, var(--color-bg) 24%, transparent);display:flex;align-items:center;justify-content:center;padding:40px"><img src="assets/partner-tmk.png" alt="TMK Industries" style="max-width:100%;max-height:100%;object-fit:contain;display:block"></div>
+      <div class="card-reveal" style="animation-delay:800ms;border:1px solid color-mix(in srgb, var(--color-bg) 24%, transparent);display:flex;align-items:center;justify-content:center;padding:40px"><img src="assets/partner-quad.png" alt="Quad Film, managed by P10X" style="max-width:100%;max-height:100%;object-fit:contain;display:block"></div>
+    </div>
+    <p class="rise" style="margin-top:36px;padding-top:36px;border-top:1px solid var(--color-accent);font-size:30px;line-height:46px;color:var(--color-neutral-300);animation-delay:1000ms">Real technology, real standards, real customers, while you are still a student.</p>
+  </section>
+  <section data-label="One ecosystem" data-screen-label="30" data-speaker-notes="Six players, one purpose. The student is one of the six, not a passenger." style="transition:opacity 320ms ease;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:160px 144px 80px;text-wrap:pretty">
+    <h2 data-morph="title" class="rise" style="font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:84px;letter-spacing:-0.01em;margin:0;animation-delay:0ms">One ecosystem. One purpose.</h2>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:36px 44px;margin-top:56px;flex:1;grid-auto-rows:1fr">
+      <div class="card-reveal" style="animation-delay:320ms;border:1px solid var(--color-neutral-400);padding:30px 34px;display:flex;flex-direction:column;gap:14px;justify-content:center">
+        <h3 style="font-family:var(--font-heading);font-weight:400;font-size:46px;line-height:50px;margin:0;">University</h3>
+        <p style="font-size:28px;line-height:42px;margin:0;color:var(--color-neutral-800)">Knowledge, research, thinking</p>
+      </div>
+      <div class="card-reveal" style="animation-delay:510ms;border:1px solid var(--color-neutral-400);padding:30px 34px;display:flex;flex-direction:column;gap:14px;justify-content:center">
+        <h3 style="font-family:var(--font-heading);font-weight:400;font-size:46px;line-height:50px;margin:0;">TVET institution</h3>
+        <p style="font-size:28px;line-height:42px;margin:0;color:var(--color-neutral-800)">Practical competency and skills</p>
+      </div>
+      <div class="card-reveal" style="animation-delay:700ms;border:1px solid var(--color-neutral-400);padding:30px 34px;display:flex;flex-direction:column;gap:14px;justify-content:center">
+        <h3 style="font-family:var(--font-heading);font-weight:400;font-size:46px;line-height:50px;margin:0;">Industry</h3>
+        <p style="font-size:28px;line-height:42px;margin:0;color:var(--color-neutral-800)">Technology and market reality</p>
+      </div>
+      <div class="card-reveal" style="animation-delay:510ms;border:1px solid var(--color-neutral-400);padding:30px 34px;display:flex;flex-direction:column;gap:14px;justify-content:center">
+        <h3 style="font-family:var(--font-heading);font-weight:400;font-size:46px;line-height:50px;margin:0;">Government</h3>
+        <p style="font-size:28px;line-height:42px;margin:0;color:var(--color-neutral-800)">Policy, funding, support</p>
+      </div>
+      <div class="card-reveal" style="animation-delay:700ms;border:1px solid var(--color-accent);background:var(--color-accent-100);padding:30px 34px;display:flex;flex-direction:column;gap:14px;justify-content:center">
+        <h3 style="font-family:var(--font-heading);font-weight:400;font-size:46px;line-height:50px;margin:0;color:var(--color-accent-700)">You, the student</h3>
+        <p style="font-size:28px;line-height:42px;margin:0;color:var(--color-neutral-800)">Ownership of your own learning</p>
+      </div>
+      <div class="card-reveal" style="animation-delay:890ms;border:1px solid var(--color-neutral-400);padding:30px 34px;display:flex;flex-direction:column;gap:14px;justify-content:center">
+        <h3 style="font-family:var(--font-heading);font-weight:400;font-size:46px;line-height:50px;margin:0;">Employer</h3>
+        <p style="font-size:28px;line-height:42px;margin:0;color:var(--color-neutral-800)">Jobs and career pathways</p>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px 18px;margin-top:44px;padding-top:32px;border-top:1px solid var(--color-accent)">
+      <span class="q-pop" style="animation-delay:1500ms;font-family:var(--font-heading);font-size:36px;line-height:44px;">Skills</span>
+      <span class="rise" style="font-size:28px;color:var(--color-accent-700);animation-delay:1620ms">→</span>
+      <span class="q-pop" style="animation-delay:1730ms;font-family:var(--font-heading);font-size:36px;line-height:44px;">Competency</span>
+      <span class="rise" style="font-size:28px;color:var(--color-accent-700);animation-delay:1850ms">→</span>
+      <span class="q-pop" style="animation-delay:1960ms;font-family:var(--font-heading);font-size:36px;line-height:44px;">Innovation</span>
+      <span class="rise" style="font-size:28px;color:var(--color-accent-700);animation-delay:2080ms">→</span>
+      <span class="q-pop" style="animation-delay:2190ms;font-family:var(--font-heading);font-size:36px;line-height:44px;">Employment</span>
+      <span class="rise" style="font-size:28px;color:var(--color-accent-700);animation-delay:2310ms">→</span>
+      <span class="q-pop" style="animation-delay:2420ms;font-family:var(--font-heading);font-size:36px;line-height:44px;">Entrepreneurship</span>
+      <span class="rise" style="font-size:28px;color:var(--color-accent-700);animation-delay:2540ms">→</span>
+      <span class="q-pop" style="animation-delay:2650ms;font-family:var(--font-heading);font-size:40px;line-height:44px;color:var(--color-accent-700)">Economic growth</span>
+    </div>
+  </section>
+  <section data-label="The big question" data-screen-label="32" data-speaker-notes="We cannot predict every job. We can prepare people who learn, adapt, solve, collaborate, use technology and create value." style="transition:opacity 320ms ease;display:flex;flex-direction:column;justify-content:center;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:104px 144px 92px;text-wrap:pretty" data-om-slide-id="d3644db7">
+    <p style="position:absolute;top:96px;left:144px;font-size:24px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700);margin:0">05 · P10X Academy</p>
+    <h2 class="rise" data-morph="title" style="font-family:var(--font-heading);font-weight:400;font-size:110px;line-height:120px;letter-spacing:-0.015em;margin:0 0 0 -0.04em;max-width:20ch">Are we preparing students for the jobs of today, or for the world of tomorrow?</h2>
+    <p style="margin:72px 0 0;font-size:30px;line-height:46px;max-width:80ch;color:var(--color-neutral-800);border-top:1px solid var(--color-divider);padding-top:36px">Our responsibility is not to predict the future for students. It is to prepare them to navigate it: able to learn, adapt, solve problems, work with others, use technology and create value.</p>
+  </section>
+
+  <section data-label="Academia × Industry" data-screen-label="33" data-speaker-notes="Not a choice between the two. A multiplication of the two." style="transition:opacity 320ms ease;display:flex;flex-direction:column;justify-content:center;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:104px 144px 92px;text-wrap:pretty">
+    <div style="display:flex;flex-direction:column;gap:52px">
+      <p class="rise" style="font-size:42px;line-height:52px;margin:0;color:var(--color-neutral-700);animation-delay:0ms">The future should not be <span style="text-decoration:line-through;text-decoration-color:#a8322e;text-decoration-thickness:3px;color:#a8322e">academia or industry</span>. It should be:</p>
+      <h2 data-morph="title" class="rise" style="font-family:var(--font-heading);font-weight:400;font-size:140px;line-height:150px;letter-spacing:-0.015em;margin:0 0 0 -0.04em;animation-delay:500ms">Academia <span style="color:var(--color-accent-700)">×</span> Industry</h2>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:20px 22px">
+        <div class="q-pop" style="animation-delay:1500ms;border:1px solid var(--color-accent);padding:18px 28px;font-family:var(--font-heading);font-size:38px;line-height:42px;white-space:nowrap">Knowledge</div>
+        <span class="rise" style="font-size:32px;color:var(--color-accent-700);animation-delay:1640ms">×</span>
+        <div class="q-pop" style="animation-delay:1760ms;border:1px solid var(--color-accent);padding:18px 28px;font-family:var(--font-heading);font-size:38px;line-height:42px;white-space:nowrap">Skills</div>
+        <span class="rise" style="font-size:32px;color:var(--color-accent-700);animation-delay:1900ms">×</span>
+        <div class="q-pop" style="animation-delay:2020ms;border:1px solid var(--color-accent);padding:18px 28px;font-family:var(--font-heading);font-size:38px;line-height:42px;white-space:nowrap">Experience</div>
+        <span class="rise" style="font-size:32px;color:var(--color-accent-700);animation-delay:2160ms">×</span>
+        <div class="q-pop" style="animation-delay:2280ms;border:1px solid var(--color-accent);padding:18px 28px;font-family:var(--font-heading);font-size:38px;line-height:42px;white-space:nowrap">Technology</div>
+        <span class="rise" style="font-size:32px;color:var(--color-accent-700);animation-delay:2420ms">×</span>
+        <div class="q-pop" style="animation-delay:2540ms;border:1px solid var(--color-accent);padding:18px 28px;font-family:var(--font-heading);font-size:38px;line-height:42px;white-space:nowrap">Innovation</div>
+        <span class="rise" style="font-size:32px;color:var(--color-accent-700);animation-delay:2680ms">×</span>
+        <div class="q-pop" style="animation-delay:2800ms;border:1px solid var(--color-accent);padding:18px 28px;font-family:var(--font-heading);font-size:38px;line-height:42px;white-space:nowrap">Opportunity</div>
+      </div>
+      <div class="rise" style="display:flex;align-items:center;gap:28px;animation-delay:3100ms">
+        <span style="font-size:40px;color:var(--color-accent-700)">=</span>
+        <div class="q-pop" style="animation-delay:3250ms;border:2px solid var(--color-accent);background:var(--color-accent-100);padding:20px 40px"><span style="font-family:var(--font-heading);font-size:56px;line-height:62px;color:var(--color-accent-700)">Future-ready talent</span></div>
+      </div>
+    </div>
+  </section>
+  <section data-label="Closing" data-screen-label="34" data-speaker-notes="Close on the two questions: how many did we graduate, versus how many lives did we prepare for meaningful careers. Then invite them to come and talk." style="transition:opacity 320ms ease;display:flex;flex-direction:column;justify-content:center;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:120px 144px 100px;text-wrap:pretty">
+    <div style="display:flex;flex-direction:column;gap:44px">
+      <h2 data-morph="title" class="rise" style="font-family:var(--font-heading);font-weight:400;font-size:92px;line-height:104px;letter-spacing:-0.015em;margin:0 0 0 -0.04em;max-width:24ch;animation-delay:0ms">Let's not just produce graduates. Let's build people who can <span style="position:relative;display:inline-block;color:var(--color-accent-700)">create value<span class="ul-sweep" style="position:absolute;left:0;right:0;bottom:8px;height:7px;background:var(--color-accent);opacity:0.4;transform-origin:left center;animation-delay:900ms"></span></span>.</h2>
+      <div style="display:flex;gap:24px;flex-wrap:wrap">
+        <span class="q-pop" style="animation-delay:1500ms;border:1px solid var(--color-accent);padding:16px 30px;font-family:var(--font-heading);font-size:38px;line-height:42px">Connecting TVET</span>
+        <span class="q-pop" style="animation-delay:1720ms;border:1px solid var(--color-accent);padding:16px 30px;font-family:var(--font-heading);font-size:38px;line-height:42px">Connecting industry</span>
+        <span class="q-pop" style="animation-delay:1940ms;border:1px solid var(--color-accent);background:var(--color-accent-100);padding:16px 30px;font-family:var(--font-heading);font-size:38px;line-height:42px;color:var(--color-accent-700)">Creating employment</span>
+      </div>
+    </div>
+    <div class="rise" style="margin-top:auto;padding-top:40px;border-top:1px solid var(--color-divider);display:flex;align-items:flex-end;justify-content:space-between;gap:64px;animation-delay:2300ms">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <p style="font-size:34px;line-height:46px;margin:0">Puan Salwani Noor · COO, P10X Academy</p>
+        <p style="font-size:26px;line-height:38px;margin:0;color:var(--color-neutral-700)">Come and speak to the P10X team after this session.</p>
+      </div>
+      <img src="assets/p10x-logo.png" alt="P10X Academy" style="width:280px;height:auto;display:block">
+    </div>
+  </section>
+
+</x-import>
+</x-dc>
+</body>
+</html>
